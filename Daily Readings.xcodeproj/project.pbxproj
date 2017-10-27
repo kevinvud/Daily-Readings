@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B7D97AF2EF2F2495CF8A7AC /* Pods_Daily_Readings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 602B7A83A5C21F90E00B25F4 /* Pods_Daily_Readings.framework */; };
+		D128E0B51FA1779E00D636C4 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0B41FA1779E00D636C4 /* Extension.swift */; };
+		D128E0BF1FA23F5200D636C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */; };
+		D128E0C11FA2424A00D636C4 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C01FA2424A00D636C4 /* MainTabBarController.swift */; };
+		D128E0C31FA2439200D636C4 /* DailyReadingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C21FA2439200D636C4 /* DailyReadingsController.swift */; };
+		D128E0C51FA2478600D636C4 /* DailyReadingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C41FA2478600D636C4 /* DailyReadingsCell.swift */; };
+		D128E0C71FA2547A00D636C4 /* ReadingsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C61FA2547A00D636C4 /* ReadingsContent.swift */; };
 		D1622E0C1FA11EBB0079A6ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1622E0B1FA11EBB0079A6ED /* AppDelegate.swift */; };
 		D1622E0E1FA11EBB0079A6ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1622E0D1FA11EBB0079A6ED /* ViewController.swift */; };
 		D1622E111FA11EBB0079A6ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1622E0F1FA11EBB0079A6ED /* Main.storyboard */; };
@@ -15,6 +22,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		602B7A83A5C21F90E00B25F4 /* Pods_Daily_Readings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Daily_Readings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		87496FC59BDC669642DFB5D6 /* Pods-Daily Readings.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily Readings.release.xcconfig"; path = "Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings.release.xcconfig"; sourceTree = "<group>"; };
+		8C3F0835DE5955DE151686F2 /* Pods-Daily Readings.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily Readings.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings.debug.xcconfig"; sourceTree = "<group>"; };
+		D128E0B41FA1779E00D636C4 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D128E0C01FA2424A00D636C4 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		D128E0C21FA2439200D636C4 /* DailyReadingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadingsController.swift; sourceTree = "<group>"; };
+		D128E0C41FA2478600D636C4 /* DailyReadingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadingsCell.swift; sourceTree = "<group>"; };
+		D128E0C61FA2547A00D636C4 /* ReadingsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsContent.swift; sourceTree = "<group>"; };
 		D1622E081FA11EBB0079A6ED /* Daily Readings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily Readings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1622E0B1FA11EBB0079A6ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1622E0D1FA11EBB0079A6ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +45,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B7D97AF2EF2F2495CF8A7AC /* Pods_Daily_Readings.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31FA52BF32787BF310AB66F2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8C3F0835DE5955DE151686F2 /* Pods-Daily Readings.debug.xcconfig */,
+				87496FC59BDC669642DFB5D6 /* Pods-Daily Readings.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		5AD8E06B1E91B3E2C7F1EDBE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				602B7A83A5C21F90E00B25F4 /* Pods_Daily_Readings.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D128E0B21FA1777A00D636C4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D128E0B41FA1779E00D636C4 /* Extension.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		D1622DFF1FA11EBB0079A6ED = {
 			isa = PBXGroup;
 			children = (
 				D1622E0A1FA11EBB0079A6ED /* Daily Readings */,
 				D1622E091FA11EBB0079A6ED /* Products */,
+				31FA52BF32787BF310AB66F2 /* Pods */,
+				5AD8E06B1E91B3E2C7F1EDBE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +98,44 @@
 		D1622E0A1FA11EBB0079A6ED /* Daily Readings */ = {
 			isa = PBXGroup;
 			children = (
+				D128E0B21FA1777A00D636C4 /* Utilities */,
+				D1622E1F1FA122B10079A6ED /* Controller */,
+				D1622E1E1FA122AB0079A6ED /* View */,
+				D1622E1D1FA122A40079A6ED /* Model */,
 				D1622E0B1FA11EBB0079A6ED /* AppDelegate.swift */,
-				D1622E0D1FA11EBB0079A6ED /* ViewController.swift */,
 				D1622E0F1FA11EBB0079A6ED /* Main.storyboard */,
 				D1622E121FA11EBB0079A6ED /* Assets.xcassets */,
 				D1622E141FA11EBB0079A6ED /* LaunchScreen.storyboard */,
 				D1622E171FA11EBB0079A6ED /* Info.plist */,
+				D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */,
 			);
 			path = "Daily Readings";
+			sourceTree = "<group>";
+		};
+		D1622E1D1FA122A40079A6ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D128E0C61FA2547A00D636C4 /* ReadingsContent.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D1622E1E1FA122AB0079A6ED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D128E0C41FA2478600D636C4 /* DailyReadingsCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D1622E1F1FA122B10079A6ED /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D128E0C01FA2424A00D636C4 /* MainTabBarController.swift */,
+				D128E0C21FA2439200D636C4 /* DailyReadingsController.swift */,
+				D1622E0D1FA11EBB0079A6ED /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +145,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D1622E1A1FA11EBB0079A6ED /* Build configuration list for PBXNativeTarget "Daily Readings" */;
 			buildPhases = (
+				C9DE833027C8CBFF805BDF1E /* [CP] Check Pods Manifest.lock */,
 				D1622E041FA11EBB0079A6ED /* Sources */,
 				D1622E051FA11EBB0079A6ED /* Frameworks */,
 				D1622E061FA11EBB0079A6ED /* Resources */,
+				FB47A9C285BA31A08810395C /* [CP] Embed Pods Frameworks */,
+				5B1FCE2FF5D4CA724957F9B9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,6 +201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1622E161FA11EBB0079A6ED /* LaunchScreen.storyboard in Resources */,
+				D128E0BF1FA23F5200D636C4 /* GoogleService-Info.plist in Resources */,
 				D1622E131FA11EBB0079A6ED /* Assets.xcassets in Resources */,
 				D1622E111FA11EBB0079A6ED /* Main.storyboard in Resources */,
 			);
@@ -131,13 +209,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5B1FCE2FF5D4CA724957F9B9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C9DE833027C8CBFF805BDF1E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FB47A9C285BA31A08810395C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D1622E041FA11EBB0079A6ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D128E0C51FA2478600D636C4 /* DailyReadingsCell.swift in Sources */,
+				D128E0B51FA1779E00D636C4 /* Extension.swift in Sources */,
+				D128E0C71FA2547A00D636C4 /* ReadingsContent.swift in Sources */,
 				D1622E0E1FA11EBB0079A6ED /* ViewController.swift in Sources */,
+				D128E0C11FA2424A00D636C4 /* MainTabBarController.swift in Sources */,
 				D1622E0C1FA11EBB0079A6ED /* AppDelegate.swift in Sources */,
+				D128E0C31FA2439200D636C4 /* DailyReadingsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +403,7 @@
 		};
 		D1622E1B1FA11EBB0079A6ED /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C3F0835DE5955DE151686F2 /* Pods-Daily Readings.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -287,6 +419,7 @@
 		};
 		D1622E1C1FA11EBB0079A6ED /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87496FC59BDC669642DFB5D6 /* Pods-Daily Readings.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
