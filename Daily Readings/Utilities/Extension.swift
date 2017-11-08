@@ -54,37 +54,70 @@ extension UIView {
     
 }
 
-let imageCache = NSCache<AnyObject, AnyObject>()
-
-extension UIImageView{
+extension UserDefaults {
     
-    func loadImagesUsingCacheWithUrlString(_ urlString: String){
-        
-        self.image = nil
-        //check cache for image first
-        if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
-            self.image = cachedImage
-            return
+    func colorForKey(key: String) -> UIColor? {
+        var color: UIColor?
+        if let colorData = data(forKey: key) {
+            color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
         }
-        
-        
-        //otherwise fire off a new download
-        guard let url = URL(string: urlString) else {return}
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-            if error != nil{
-                print("Can't get image in Cache")
-                return
-            }else{
-                DispatchQueue.main.async {
-                    
-                    if let downloadedImage = UIImage(data: data!){
-                        imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
-                        self.image = downloadedImage
-                    }
-                }
-                
-            }
-        }).resume()
+        return color
+    }
+    
+    func setColor(color: UIColor?, forKey key: String) {
+        var colorData: NSData?
+        if let color = color {
+            colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData
+        }
+        set(colorData, forKey: key)
     }
     
 }
+
+extension Date {
+    func timeAgoDisplay() -> String {
+        let secondsAgo = Int(Date().timeIntervalSince(self))
+        
+        let VNDateFormatter = DateFormatter()
+        VNDateFormatter.dateFormat = "EEEE, d MMMM"
+        VNDateFormatter.locale = Locale(identifier: "vi_VN")
+        
+        let dateCheckAfterFormat = VNDateFormatter.string(from: self).uppercased()
+        
+        let minute = 60
+        let hour = 60 * minute
+        let day = 24 * hour
+        
+        let quotient: Int
+        let unit: String
+        if secondsAgo < minute {
+            quotient = secondsAgo
+            unit = "giây"
+        } else if secondsAgo < hour {
+            quotient = secondsAgo / minute
+            unit = "phút"
+        } else if secondsAgo < day {
+            quotient = secondsAgo / hour
+            unit = "giờ"
+        } else {
+            quotient = 0
+            unit = dateCheckAfterFormat
+        }
+        
+        if quotient == 0 {
+            
+            return unit
+        
+        }else {
+        
+            return "\(quotient) \(unit) trước"
+        
+        }
+        
+//        return "\(quotient) \(unit)\(quotient == 1 ? "" : "s") ago"
+        
+    }
+}
+
+
+
