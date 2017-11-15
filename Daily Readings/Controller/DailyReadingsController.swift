@@ -25,7 +25,7 @@ class DailyReadingsController: UICollectionViewController {
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
-        label.text = "Ops. Something went wrong. Please make sure your device is connected to internet."
+        label.text = "Ops. Something went wrong."
         label.textAlignment = .center
         label.numberOfLines = 0
         label.isHidden = true
@@ -54,7 +54,7 @@ class DailyReadingsController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.lightGray
+        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
         collectionView?.alwaysBounceVertical = true
@@ -138,7 +138,7 @@ class DailyReadingsController: UICollectionViewController {
         
         guard var tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date) else {return}
         
-        guard let endDate = Calendar.current.date(byAdding: .day, value: -7, to: date) else {return}
+        guard let endDate = Calendar.current.date(byAdding: .day, value: -1, to: date) else {return}
         
        
         while tomorrow >= endDate {
@@ -151,10 +151,8 @@ class DailyReadingsController: UICollectionViewController {
                 checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Ngày Mai"
             } else if NSCalendar.current.isDateInToday(tomorrow) {
                 checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Hôm Nay"
-            } else if NSCalendar.current.isDateInYesterday(tomorrow) {
-                checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Hôm Qua"
             } else{
-                checkTodayOrTomorrowOrYesterdayLabel = "Tuần Trước"
+                checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Hôm Qua"
             }
             
             Database.database().reference().child("Date").child(tomorrowNow).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -170,7 +168,7 @@ class DailyReadingsController: UICollectionViewController {
             }, withCancel: nil)
             tomorrow = Calendar.current.date(byAdding: .day, value: -1, to: tomorrow)!
         }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.85, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.70, execute: {
             self.activityIndicator.stopAnimating()
             self.effectView.removeFromSuperview()
             print(self.data.count)

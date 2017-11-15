@@ -21,7 +21,7 @@ class ReadingsDisplayCell: UICollectionViewCell {
     
     let lineSeparator: UIView = {
         let line = UIView()
-        line.backgroundColor = .gray
+        line.backgroundColor = UIColor.rgb(red: 190, green: 190, blue: 190)
         return line
 
     }()
@@ -39,7 +39,7 @@ class ReadingsDisplayCell: UICollectionViewCell {
     func setupViews(){
         addSubview(cellContentLabel)
         addSubview(lineSeparator)
-        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 1)
+        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
         cellContentLabel.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
     }
 }

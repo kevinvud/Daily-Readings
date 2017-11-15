@@ -8,7 +8,7 @@
 		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>www.vietcatholic.net</key>
+			<key>baoconggiao.net</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>

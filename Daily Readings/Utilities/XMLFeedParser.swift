@@ -6,16 +6,34 @@
 //  Copyright © 2017 PoGo. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class XMLFeedParser: NSObject, XMLParserDelegate {
     
     var rssItems = [RSSItem]()
     var currentElement = ""
-    var currentTitle = ""
-    var currentDescription = ""
-    var currentPubDate = ""
-    var currentLink = ""
+    var currentTitle = "" {
+        didSet{
+            currentTitle = currentTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+    var currentDescription = "" {
+        didSet{
+            currentDescription = currentDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+    var currentPubDate = "" {
+        didSet{
+            
+            currentPubDate = currentPubDate.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+    var currentLink = "" {
+        didSet{
+            
+            currentLink = currentLink.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
     var parserCompletionHandler: (([RSSItem]) -> ())?
     
     func parseFeed(url: String, completionHandler: (([RSSItem]) -> ())?) {
@@ -25,6 +43,7 @@ class XMLFeedParser: NSObject, XMLParserDelegate {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
+                
                 return
             }
             guard let data = data else {return}
@@ -50,7 +69,7 @@ class XMLFeedParser: NSObject, XMLParserDelegate {
         case "link" : currentLink += string
         case "title" : currentTitle += string
         case "description" : currentDescription += string
-        case "a10:updated" : currentPubDate += string
+        case "pubDate" : currentPubDate += string
         default: break
         }
     }
@@ -68,6 +87,5 @@ class XMLFeedParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         print(parseError.localizedDescription)
     }
-    
-    
 }
+

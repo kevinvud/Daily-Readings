@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Tin Cong Dong.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "home_selected@2x.png",
       "scale" : "2x"
     },
     {

@@ -22,9 +22,11 @@ class MainTabBarController: UITabBarController {
 
         let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "home_unselected"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        let secondController = templateNavController(tabTitle: "Tin Tuc", image: #imageLiteral(resourceName: "news"), rootViewController: NewsFeedController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let secondController = templateNavController(tabTitle: "Tin Tức", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        viewControllers = [firstController, secondController]
+        let thirdController = templateNavController(tabTitle: "Thông Tin", image: #imageLiteral(resourceName: "menu"), rootViewController: MoreMenuController(collectionViewLayout: UICollectionViewFlowLayout()))
+        
+        viewControllers = [firstController, secondController, thirdController]
         
 //        guard let items = tabBar.items else { return }
         tabBar.tintColor = .black

@@ -79,7 +79,7 @@ class DailyReadingsCell: UICollectionViewCell {
     
     let lineSeparator: UIView = {
         let line = UIView()
-        line.backgroundColor = UIColor.lightGray
+        line.backgroundColor = UIColor.rgb(red: 190, green: 190, blue: 190)
         return line
         
     }()
@@ -129,7 +129,7 @@ class DailyReadingsCell: UICollectionViewCell {
         
         imageView.anchor(top: nil, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 8)
+        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
         
     }
     

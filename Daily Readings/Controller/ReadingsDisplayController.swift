@@ -16,13 +16,13 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
     
     var readingData: ReadingsContent?
     var checkCellAndTextColorValue = true
-    var player: AVPlayer?
-    var playerItem: AVPlayerItem?
+//    var player: AVPlayer?
+//    var playerItem: AVPlayerItem?
     lazy var sectionTitle = [Section(sectionTitle: "Bài Đọc 1", sectionContent: (self.readingData?.reading1)!),  Section(sectionTitle: "Bài Đọc 2", sectionContent: (self.readingData?.reading2)!), Section(sectionTitle: "Phúc Âm", sectionContent: (self.readingData?.gospel)!)]
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
-    let audioRightBarButton = UIButton(type: UIButtonType.system)
+//    let audioRightBarButton = UIButton(type: UIButtonType.system)
     
-    var currentCellBackgroundColor = UIColor.rgb(red: 227, green: 224, blue: 222)
+    var currentCellBackgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
     var currentTextColorInCell = UIColor.black
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,10 +37,10 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         collectionView?.showsVerticalScrollIndicator = false
         navigationItem.title = readingData?.dateLabel
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont(name: "Georgia", size: 16)!]
-        collectionView?.backgroundColor = .white
+        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         collectionView?.register(ReadingsDisplayCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView?.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        loadAudioUrl()
+//        loadAudioUrl()
         setupNavItems()
        
 
@@ -54,25 +54,25 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         leftBarButton.addTarget(self, action: #selector(handleGoBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftBarButton)
         
-        audioRightBarButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: UIControlState.normal)
-        audioRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-        audioRightBarButton.addTarget(self, action: #selector(handlePlayAudio), for: .touchUpInside)
+//        audioRightBarButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: UIControlState.normal)
+//        audioRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        audioRightBarButton.addTarget(self, action: #selector(handlePlayAudio), for: .touchUpInside)
         
         let brighnessRightBarButton = UIButton(type: UIButtonType.system)
         brighnessRightBarButton.setImage(#imageLiteral(resourceName: "brightness").withRenderingMode(.alwaysOriginal), for: .normal)
         brighnessRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         brighnessRightBarButton.addTarget(self, action: #selector(handleBrightnessChanged), for: .touchUpInside)
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton), UIBarButtonItem(customView: audioRightBarButton)]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton)]
 
     }
     
-    func loadAudioUrl() {
-        guard let audioUrl = readingData?.audioUrl else {return}
-        guard let url = URL(string: audioUrl) else {return}
-        playerItem = AVPlayerItem(url: url)
-        player = AVPlayer(playerItem: playerItem)
-    }
+//    func loadAudioUrl() {
+//        guard let audioUrl = readingData?.audioUrl else {return}
+//        guard let url = URL(string: audioUrl) else {return}
+//        playerItem = AVPlayerItem(url: url)
+//        player = AVPlayer(playerItem: playerItem)
+//    }
     
     @objc func handleBrightnessChanged () {
         
@@ -93,7 +93,7 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
                 self.collectionView?.reloadData()
             }
         }else{
-            cellBackgroundColorChanged = UIColor.rgb(red: 227, green: 224, blue: 222)
+            cellBackgroundColorChanged = UIColor.rgb(red: 240, green: 240, blue: 240)
             cellTextColorChanged = UIColor.black
             self.checkCellAndTextColorValue = false
             UserDefaults.standard.setColor(color: cellBackgroundColorChanged, forKey: "cellBackgroundColor")
@@ -113,33 +113,33 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func handlePlayAudio() {
-        
-        if playerItem?.error != nil {
-            handleNetworkErrorWhenPlayButtonClicked()
-            loadAudioUrl()
-            return
-        }
-        
-        if player?.rate == 0 {
-            audioRightBarButton.setImage(#imageLiteral(resourceName: "pause").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: .normal)
-            player?.play()
+//    @objc func handlePlayAudio() {
+//
+//        if playerItem?.error != nil {
+//            handleNetworkErrorWhenPlayButtonClicked()
+//            loadAudioUrl()
+//            return
+//        }
+//
+//        if player?.rate == 0 {
+//            audioRightBarButton.setImage(#imageLiteral(resourceName: "pause").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: .normal)
+//            player?.play()
+//
+//        } else {
+//            audioRightBarButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: .normal)
+//            player?.pause()
+//
+//        }
+//    }
     
-        } else {
-            audioRightBarButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: .normal)
-            player?.pause()
-            
-        }
-    }
-    
-    func handleNetworkErrorWhenPlayButtonClicked() {
-        
-        let alert = UIAlertController(title: "Network Error", message: "Please check your internet connection", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
+//    func handleNetworkErrorWhenPlayButtonClicked() {
+//
+//        let alert = UIAlertController(title: "Network Error", message: "Please check your internet connection", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { (action) in
+//            alert.dismiss(animated: true, completion: nil)
+//        }))
+//        self.present(alert, animated: true, completion: nil)
+//    }
 }
 
 extension ReadingsDisplayController {
