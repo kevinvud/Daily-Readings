@@ -15,6 +15,7 @@ class ReadingsContent {
     var reading1: String?
     var reading2: String?
     var gospel: String?
+    var todayMass: String?
     var imageViewUrl: String?
 //    var audioUrl: String
     
@@ -22,6 +23,7 @@ class ReadingsContent {
         self.dateLabel = dateLabel
         self.checkTodayOrTomorrowOrYesterdayLabel = checkTodayOrTomorrowOrYesterdayLabel
 //        self.audioUrl = dictionary["audio"] as? String ?? ""
+        self.todayMass = dictionary["todayMass"] as? String ?? ""
         self.reading1 = dictionary["reading1"] as? String ?? ""
         self.reading2 = dictionary["reading2"] as? String ?? ""
         self.gospel = dictionary["gospel"] as? String ?? ""

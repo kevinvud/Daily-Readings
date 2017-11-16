@@ -20,7 +20,7 @@ class MainTabBarController: UITabBarController {
     func setupViewControllers() {
         
 
-        let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "home_unselected"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "read"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         let secondController = templateNavController(tabTitle: "Tin Tức", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
         
@@ -43,7 +43,7 @@ class MainTabBarController: UITabBarController {
         let navController = UINavigationController(rootViewController: viewController)
         navController.tabBarItem.image = image
         navController.tabBarItem.title = tabTitle
-        if screenSize.width <= 768{
+        if screenSize.width < 768 && !UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeLeft) || !UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeRight) {
               navController.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
         }
         return navController

@@ -194,7 +194,15 @@ extension ReadingsDisplayController {
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
+        coordinator.animate(alongsideTransition: { (_) in
+            self.collectionView?.collectionViewLayout.invalidateLayout()
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
+        }) { (_) in
+            
+        }
+
     }
     
 }

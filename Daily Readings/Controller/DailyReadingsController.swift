@@ -11,9 +11,9 @@ import Firebase
 
 private let cellId = "DailyCellId"
 
-
 class DailyReadingsController: UICollectionViewController {
     
+    let screenSize: CGRect = UIScreen.main.bounds
     var currentDate = Date()
     var timer: Timer?
     var data = [ReadingsContent]()
@@ -25,7 +25,7 @@ class DailyReadingsController: UICollectionViewController {
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
-        label.text = "Ops. Something went wrong."
+        label.text = "Ops. Something went wrong. Internet connection may not be available."
         label.textAlignment = .center
         label.numberOfLines = 0
         label.isHidden = true
@@ -34,6 +34,11 @@ class DailyReadingsController: UICollectionViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if screenSize.width < 768 {
+            appdelegate.shouldSupportAllOrientation = false
+        } else{
+            appdelegate.shouldSupportAllOrientation = true
+        }
        
         NotificationCenter.default.addObserver(
             self,
@@ -41,8 +46,11 @@ class DailyReadingsController: UICollectionViewController {
             name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil)
         
-        let value = UIInterfaceOrientation.portrait.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
+            if UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeLeft) || UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeRight){
+                let value = UIInterfaceOrientation.portrait.rawValue
+                UIDevice.current.setValue(value, forKey: "orientation")
+            }
+   
         displayErrorMessage()
     }
     
@@ -58,7 +66,7 @@ class DailyReadingsController: UICollectionViewController {
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
         collectionView?.alwaysBounceVertical = true
-        navigationItem.title = "Tin Thac"
+        navigationItem.title = "Bài Đọc"
         checkDate()
         
     }
@@ -194,6 +202,7 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? DailyReadingsCell {
             
             if data.count > 0 {
+                cell.delegate = self
                 cell.readingData = data[indexPath.item]
                 cell.contentTextView.text = nil
                 cell.dateLabel.text = nil
@@ -209,7 +218,12 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 450)
+        if screenSize.width < 768{
+            return CGSize(width: view.frame.width, height: 480)
+        } else{
+            return CGSize(width: view.frame.width, height: 750)
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -225,4 +239,23 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(readingsDisplayController, animated: true)
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
+}
+extension DailyReadingsController: DailyReadingsCellDelegate{
+    
+    func handleSharePressed(image: UIImage, todayDate: String, todayMass: String) {
+        let shareItems: Array = ["\(todayDate)\n\(todayMass)", image] as [Any]
+        let activityController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if !completed {
+                print("user cancelled")
+                return
+            }
+            print("completed sharing")
+        }
+        activityController.popoverPresentationController?.sourceView = self.view
+        present(activityController, animated: true, completion: nil)
+    }
 }

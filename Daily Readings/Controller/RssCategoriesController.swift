@@ -14,9 +14,10 @@ private let footerId = "footerId"
 
 class RssCategoriesController: UICollectionViewController {
     
-    
+    let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         navigationItem.title = "Tin Công Giáo"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
@@ -51,7 +52,11 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: view.frame.width, height: 200)
+        if screenSize.width < 768{
+            return CGSize(width: view.frame.width, height: 200)
+        } else{
+            return CGSize(width: view.frame.width, height: 350)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -67,5 +72,8 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
         return footer
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
     
 }

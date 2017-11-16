@@ -87,7 +87,7 @@ extension NewsFeedController: UICollectionViewDelegateFlowLayout {
                 dummyCell.layoutIfNeeded()
                 let targetSize = CGSize(width: view.frame.width, height: 1000)
                 let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-                return CGSize(width: view.frame.width, height: estimatedSize.height - 50)
+                return CGSize(width: view.frame.width, height: estimatedSize.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

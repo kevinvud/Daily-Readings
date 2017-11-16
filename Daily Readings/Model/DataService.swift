@@ -18,12 +18,21 @@ class DataService {
                          RssCategories(title: "Tin Công Giáo Thế Giới", urlLink: "http://baoconggiao.net/index.php/rss/tin-cong-giao-the-gioi/", imageName: "Tin The Gioi"),
                          RssCategories(title: "Tin Giáo Xứ - Hội Đoàn", urlLink: "http://baoconggiao.net/index.php/rss/tin-giao-xu-hoi-doan/", imageName: "Tin Cong Dong")]
     
+    let moreMenuItem = [MoreMenuItem(title: "Đánh Giá Ứng Dụng", imageName: "rate"),
+                        MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "help"),
+                        MoreMenuItem(title: "Chia Sẻ", imageName: "share")]
+    
+    
+    
     func getCategories() -> [RssCategories]{
         
         return rssCategories
         
     }
     
+    func getMenuItem() -> [MoreMenuItem]{
+        return moreMenuItem
+    }
     
     
 }
