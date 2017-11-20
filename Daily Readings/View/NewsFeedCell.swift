@@ -18,14 +18,8 @@ class NewsFeedCell: UICollectionViewCell {
                 self.separatedString()
             
                 DispatchQueue.main.async {
-//                print(self.item?.description)
-                    if let imageViewUrl = self.imageUrl{
-                        self.imageView.loadImagesUsingCacheWithUrlString(imageViewUrl)
-                    }
                 self.titleLabel.text = self.item?.title
-//                self.descriptionLabel.text = self.item?.description
                 self.setupDateLabel()
-//                self.dateLabel.text = self.item?.pubDate
                 self.setupLabelDisplayed()
             }
             
@@ -44,6 +38,7 @@ class NewsFeedCell: UICollectionViewCell {
     }()
     let descriptionLabel: UILabel = {
         let lb = UILabel()
+        lb.clipsToBounds = true
         lb.numberOfLines = 0
         lb.font = UIFont(name: "Iowan", size: 17)
         return lb
@@ -61,17 +56,9 @@ class NewsFeedCell: UICollectionViewCell {
         
     }()
     
-    let imageView: CustomImageVIew = {
-        let iv = CustomImageVIew()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        return iv
-    }()
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = #colorLiteral(red: 0.9842278361, green: 0.9843688607, blue: 0.9841969609, alpha: 1)
         setupViews()
     }
     
@@ -94,9 +81,13 @@ class NewsFeedCell: UICollectionViewCell {
 //        imageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
 //        imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
-        stackView.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
-        
-        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 2)
+        if #available(iOS 11.0, *) {
+            stackView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 2)
+        } else {
+            stackView.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 2)
+        }
     }
     
     func setupLabelDisplayed(){

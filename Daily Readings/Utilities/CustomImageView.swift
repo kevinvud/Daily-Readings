@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 var imageCache = NSCache<AnyObject, AnyObject>()
 
 class CustomImageVIew: UIImageView {
@@ -15,8 +16,9 @@ class CustomImageVIew: UIImageView {
     var lastUrlUsedToLoadImage: String?
     
     func loadImagesUsingCacheWithUrlString(_ urlString: String){
+        
         lastUrlUsedToLoadImage = urlString
-        self.image = nil
+        self.image = #imageLiteral(resourceName: "upload")
         //check cache for image first
         if let imageFromCache = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
             DispatchQueue.main.async {
@@ -31,7 +33,6 @@ class CustomImageVIew: UIImageView {
                     DispatchQueue.main.async {
                         self.image = #imageLiteral(resourceName: "noInternetImage")
                     }
-                    
                     print("Can't get image in Cache")
                     return
                 }

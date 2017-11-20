@@ -16,16 +16,49 @@ class NewsFeedController: UICollectionViewController {
     var data: RssCategories?
     var rssItems = [RSSItem]()
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    let errorMessageLabel: UILabel  = {
+        let label = UILabel()
+        label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền."
+        label.font = UIFont.init(name: "Georgia", size: 20)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        let attrs = [
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = data?.title
         
         // Register cell classes
         self.collectionView!.register(NewsFeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
+        checkInternetConnection()
         fetchData()
+    }
+    
+    func checkInternetConnection() {
+        if currentReachabilityStatus == .notReachable{
+            DispatchQueue.main.async {
+                self.errorMessageLabel.isHidden = false
+                self.activityIndicator.isHidden = true
+                self.displayErrorMessage()
+            }
+            
+        } else {
+            self.errorMessageLabel.isHidden = true
+        }
+        
+    }
+    
+    func displayErrorMessage() {
+        view.addSubview(errorMessageLabel)
+        errorMessageLabel.anchor(top: nil, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 100)
+        errorMessageLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
         func fetchData () {
@@ -92,6 +125,11 @@ extension NewsFeedController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 
 }

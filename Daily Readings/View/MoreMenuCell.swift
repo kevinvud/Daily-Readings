@@ -52,7 +52,7 @@ class MoreMenuCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = #colorLiteral(red: 0.9842278361, green: 0.9843688607, blue: 0.9841969609, alpha: 1)
         setupViews()
     }
     
@@ -65,12 +65,19 @@ class MoreMenuCell: UICollectionViewCell {
         addSubview(label)
         addSubview(lineSeparator)
 
-        imageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
-        imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        label.anchor(top: nil, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 10, width: 0, height: 20)
-        label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-        lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
-        
+        if #available(iOS 11.0, *) {
+            imageView.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            label.anchor(top: nil, left: imageView.rightAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 10, width: 0, height: 20)
+            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
+        } else {
+            imageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 20, height: 20)
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            label.anchor(top: nil, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 20, paddingBottom: 0, paddingRight: 10, width: 0, height: 20)
+            label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
+        }
         
     }
     

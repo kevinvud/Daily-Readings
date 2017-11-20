@@ -19,6 +19,10 @@ class RssCategoriesController: UICollectionViewController {
         super.viewDidLoad()
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        let attrs = [
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Tin Công Giáo"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
         self.collectionView?.register(RssCategoriesCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -52,7 +56,7 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        if screenSize.width < 768{
+         if (UIDevice.current.model == "iPhone"){
             return CGSize(width: view.frame.width, height: 200)
         } else{
             return CGSize(width: view.frame.width, height: 350)
@@ -73,6 +77,7 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
     

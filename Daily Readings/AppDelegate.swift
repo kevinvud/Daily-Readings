@@ -13,14 +13,15 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var shouldSupportAllOrientation = false
     
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if (shouldSupportAllOrientation == true){
-            return UIInterfaceOrientationMask.allButUpsideDown
-        }
-        return UIInterfaceOrientationMask.portrait
-    }
+//    var shouldSupportAllOrientation = false
+    
+//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+//        if (shouldSupportAllOrientation == true){
+//            return UIInterfaceOrientationMask.allButUpsideDown
+//        }
+//        return UIInterfaceOrientationMask.portrait
+//    }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         

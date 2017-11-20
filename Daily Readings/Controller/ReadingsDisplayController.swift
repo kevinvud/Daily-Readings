@@ -14,28 +14,38 @@ private let headerId = "headerId"
 
 class ReadingsDisplayController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
+    let settingsMenuLauncherInReadingsVC = SettingsMenuLauncherInReadingsVC()
     var readingData: ReadingsContent?
     var checkCellAndTextColorValue = true
+    var sectionData: Section?
 //    var player: AVPlayer?
 //    var playerItem: AVPlayerItem?
-    lazy var sectionTitle = [Section(sectionTitle: "Bài Đọc 1", sectionContent: (self.readingData?.reading1)!),  Section(sectionTitle: "Bài Đọc 2", sectionContent: (self.readingData?.reading2)!), Section(sectionTitle: "Phúc Âm", sectionContent: (self.readingData?.gospel)!)]
+    lazy var sectionTitle = [Section(sectionTitle: "Bài Đọc 1", sectionContent: (self.readingData?.reading1)!),
+                             Section(sectionTitle: "Bài Đọc 2", sectionContent: (self.readingData?.reading2)!),
+                             Section(sectionTitle: "Phúc Âm", sectionContent: (self.readingData?.gospel)!)]
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
 //    let audioRightBarButton = UIButton(type: UIButtonType.system)
     
-    var currentCellBackgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+    var currentCellBackgroundColor = #colorLiteral(red: 0.9842278361, green: 0.9843688607, blue: 0.9841969609, alpha: 1)
+//        UIColor.rgb(red: 240, green: 240, blue: 240)
     var currentTextColorInCell = UIColor.black
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        appdelegate.shouldSupportAllOrientation = true
+//        appdelegate.shouldSupportAllOrientation = true
+        let attrs = [
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attrs
+        navigationItem.title = readingData?.dateLabel
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         collectionView?.showsVerticalScrollIndicator = false
-        navigationItem.title = readingData?.dateLabel
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont(name: "Georgia", size: 16)!]
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         collectionView?.register(ReadingsDisplayCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -57,14 +67,35 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
 //        audioRightBarButton.setImage(#imageLiteral(resourceName: "play").withRenderingMode(UIImageRenderingMode.alwaysOriginal), for: UIControlState.normal)
 //        audioRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
 //        audioRightBarButton.addTarget(self, action: #selector(handlePlayAudio), for: .touchUpInside)
+        let showMenuButton = UIButton(type: .system)
+        showMenuButton.setImage(#imageLiteral(resourceName: "worldwide").withRenderingMode(.alwaysOriginal), for: .normal)
+        showMenuButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        showMenuButton.addTarget(self, action: #selector(handleMenuButton), for: .touchUpInside)
         
         let brighnessRightBarButton = UIButton(type: UIButtonType.system)
         brighnessRightBarButton.setImage(#imageLiteral(resourceName: "brightness").withRenderingMode(.alwaysOriginal), for: .normal)
         brighnessRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         brighnessRightBarButton.addTarget(self, action: #selector(handleBrightnessChanged), for: .touchUpInside)
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton)]
-
+//        navigationItem.rightBarButtonItem = [UIBarButtonItem(customView: brighnessRightBarButton)]
+        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton), UIBarButtonItem(customView: showMenuButton)]
+    }
+    
+    
+    @objc func handleMenuButton() {
+        let barButtonItem = self.navigationItem.rightBarButtonItem!
+        let buttonItemView = barButtonItem.value(forKey: "view") as? UIView
+        let buttonItemSize = buttonItemView?.frame.size
+        print(buttonItemSize)
+        
+        let statusHeight = UIApplication.shared.statusBarFrame.size.height
+//        guard let navigationBarHeight: CGFloat = self.navigationController?.navigationBar.intrinsicContentSize.height else {return}
+        guard let navigationBarHeight: CGFloat = self.navigationController?.navigationBar.frame.height else {return}
+        settingsMenuLauncherInReadingsVC.showSettings(navBarHeight: navigationBarHeight, statusHeight: statusHeight)
+    
+        
+        
     }
     
 //    func loadAudioUrl() {
@@ -81,7 +112,7 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         var cellTextColorChanged: UIColor?
         
         if setFirstTimeButtonClickValueEqualsFalse == false {
-            cellBackgroundColorChanged = UIColor.gray
+            cellBackgroundColorChanged = UIColor.init(white: 0.4, alpha: 0.9)
             cellTextColorChanged = UIColor.white
             self.checkCellAndTextColorValue = true
             UserDefaults.standard.setColor(color: cellBackgroundColorChanged, forKey: "cellBackgroundColor")
@@ -93,7 +124,8 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
                 self.collectionView?.reloadData()
             }
         }else{
-            cellBackgroundColorChanged = UIColor.rgb(red: 240, green: 240, blue: 240)
+            cellBackgroundColorChanged = #colorLiteral(red: 0.9842278361, green: 0.9843688607, blue: 0.9841969609, alpha: 1)
+//                UIColor.rgb(red: 240, green: 240, blue: 240)
             cellTextColorChanged = UIColor.black
             self.checkCellAndTextColorValue = false
             UserDefaults.standard.setColor(color: cellBackgroundColorChanged, forKey: "cellBackgroundColor")
@@ -109,7 +141,7 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
     }
     
     @objc func handleGoBack() {
-        appdelegate.shouldSupportAllOrientation = false
+//        appdelegate.shouldSupportAllOrientation = false
         navigationController?.popViewController(animated: true)
     }
     
@@ -156,8 +188,11 @@ extension ReadingsDisplayController {
                 cell.cellContentLabel.textColor = currentTextColorInCell
                 return cell
             }
+            
         }
+
         return UICollectionViewCell()
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -168,6 +203,7 @@ extension ReadingsDisplayController {
         
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let dummyCell = ReadingsDisplayCell(frame: frame)
+
         dummyCell.cellContentLabel.text = sectionTitle[indexPath.section].sectionContent
         dummyCell.layoutIfNeeded()
         let targetSize = CGSize(width: view.frame.width, height: 1000)
@@ -193,16 +229,8 @@ extension ReadingsDisplayController {
         return CGSize(width: view.frame.width, height: 50)
     }
     
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { (_) in
-            self.collectionView?.collectionViewLayout.invalidateLayout()
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }) { (_) in
-            
-        }
-
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
     
 }

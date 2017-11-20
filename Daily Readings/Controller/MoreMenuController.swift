@@ -17,6 +17,10 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.alwaysBounceVertical = true
+        let attrs = [
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Thông Tin"
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         // Register cell classes
@@ -26,12 +30,12 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
     func configuredMailComposeVC() -> MFMailComposeViewController{
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-        mailComposerVC.setToRecipients(["myemail@email.com"])
+        mailComposerVC.setToRecipients(["tinthacbaidoc@email.com"])
         mailComposerVC.setSubject("Trợ Giúp / Góp Ý")
         let systemVersion = UIDevice.current.systemVersion
         let model = UIDevice.current.model
         
-        mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này ///\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
+        mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này ///\n\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
         return mailComposerVC
     }
 //    func showSendMailErrorAlert() {
@@ -89,8 +93,8 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
             } else {
 //                self.showSendMailErrorAlert()
             }
-        }else{
-            let activityController = UIActivityViewController(activityItems: ["Tín Thác App"], applicationActivities: nil)
+        }else if indexPath.item == 2 {
+            let activityController = UIActivityViewController(activityItems: ["Tải ứng dụng \"Tín Thác\" trên App Store"], applicationActivities: nil)
             activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
                 if !completed {
                     print("user cancelled")
@@ -104,6 +108,7 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         collectionView?.collectionViewLayout.invalidateLayout()
     }
 }

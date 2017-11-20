@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		6B7D97AF2EF2F2495CF8A7AC /* Pods_Daily_Readings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 602B7A83A5C21F90E00B25F4 /* Pods_Daily_Readings.framework */; };
 		D128E0B51FA1779E00D636C4 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0B41FA1779E00D636C4 /* Extension.swift */; };
-		D128E0BF1FA23F5200D636C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */; };
 		D128E0C11FA2424A00D636C4 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C01FA2424A00D636C4 /* MainTabBarController.swift */; };
 		D128E0C31FA2439200D636C4 /* DailyReadingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C21FA2439200D636C4 /* DailyReadingsController.swift */; };
 		D128E0C51FA2478600D636C4 /* DailyReadingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C41FA2478600D636C4 /* DailyReadingsCell.swift */; };
 		D128E0C71FA2547A00D636C4 /* ReadingsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D128E0C61FA2547A00D636C4 /* ReadingsContent.swift */; };
+		D14784151FC13D300077D9F5 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14784141FC13D300077D9F5 /* iOSDevCenters+GIF.swift */; };
 		D1622E0C1FA11EBB0079A6ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1622E0B1FA11EBB0079A6ED /* AppDelegate.swift */; };
 		D1622E0E1FA11EBB0079A6ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1622E0D1FA11EBB0079A6ED /* ViewController.swift */; };
 		D1622E111FA11EBB0079A6ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1622E0F1FA11EBB0079A6ED /* Main.storyboard */; };
@@ -22,6 +22,11 @@
 		D172599D1FBA449A00F4B4E7 /* RssCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172599C1FBA449A00F4B4E7 /* RssCategoriesCell.swift */; };
 		D172599F1FBA453000F4B4E7 /* RssCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172599E1FBA453000F4B4E7 /* RssCategories.swift */; };
 		D17259A11FBA67BE00F4B4E7 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17259A01FBA67BE00F4B4E7 /* DataService.swift */; };
+		D187FA7F1FBE401000FDBFAE /* DummyCellForDailyReadingsHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D187FA7E1FBE401000FDBFAE /* DummyCellForDailyReadingsHeight.swift */; };
+		D187FA831FC015A900FDBFAE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D187FA821FC015A900FDBFAE /* GoogleService-Info.plist */; };
+		D18A7EFD1FC2A79300328315 /* SettingsMenuLauncherInReadingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A7EFC1FC2A79300328315 /* SettingsMenuLauncherInReadingsVC.swift */; };
+		D18A7EFF1FC2C24400328315 /* colorMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A7EFE1FC2C24400328315 /* colorMenuCell.swift */; };
+		D18A7F011FC2D35100328315 /* fontSizeMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A7F001FC2D35100328315 /* fontSizeMenuCell.swift */; };
 		D1A5CA781FBA79DA0040B3EB /* NewsFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5CA771FBA79DA0040B3EB /* NewsFeedController.swift */; };
 		D1A5CA7A1FBBBDED0040B3EB /* RssCategoriesFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5CA791FBBBDED0040B3EB /* RssCategoriesFooterCell.swift */; };
 		D1A5CA7C1FBC118F0040B3EB /* MoreMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A5CA7B1FBC118F0040B3EB /* MoreMenuController.swift */; };
@@ -44,11 +49,11 @@
 		87496FC59BDC669642DFB5D6 /* Pods-Daily Readings.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily Readings.release.xcconfig"; path = "Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings.release.xcconfig"; sourceTree = "<group>"; };
 		8C3F0835DE5955DE151686F2 /* Pods-Daily Readings.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Daily Readings.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Daily Readings/Pods-Daily Readings.debug.xcconfig"; sourceTree = "<group>"; };
 		D128E0B41FA1779E00D636C4 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D128E0C01FA2424A00D636C4 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		D128E0C21FA2439200D636C4 /* DailyReadingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadingsController.swift; sourceTree = "<group>"; };
 		D128E0C41FA2478600D636C4 /* DailyReadingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadingsCell.swift; sourceTree = "<group>"; };
 		D128E0C61FA2547A00D636C4 /* ReadingsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingsContent.swift; sourceTree = "<group>"; };
+		D14784141FC13D300077D9F5 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
 		D1622E081FA11EBB0079A6ED /* Daily Readings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily Readings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1622E0B1FA11EBB0079A6ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1622E0D1FA11EBB0079A6ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +64,11 @@
 		D172599C1FBA449A00F4B4E7 /* RssCategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssCategoriesCell.swift; sourceTree = "<group>"; };
 		D172599E1FBA453000F4B4E7 /* RssCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssCategories.swift; sourceTree = "<group>"; };
 		D17259A01FBA67BE00F4B4E7 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		D187FA7E1FBE401000FDBFAE /* DummyCellForDailyReadingsHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyCellForDailyReadingsHeight.swift; sourceTree = "<group>"; };
+		D187FA821FC015A900FDBFAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D18A7EFC1FC2A79300328315 /* SettingsMenuLauncherInReadingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuLauncherInReadingsVC.swift; sourceTree = "<group>"; };
+		D18A7EFE1FC2C24400328315 /* colorMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = colorMenuCell.swift; sourceTree = "<group>"; };
+		D18A7F001FC2D35100328315 /* fontSizeMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fontSizeMenuCell.swift; sourceTree = "<group>"; };
 		D1A5CA771FBA79DA0040B3EB /* NewsFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedController.swift; sourceTree = "<group>"; };
 		D1A5CA791FBBBDED0040B3EB /* RssCategoriesFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssCategoriesFooterCell.swift; sourceTree = "<group>"; };
 		D1A5CA7B1FBC118F0040B3EB /* MoreMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreMenuController.swift; sourceTree = "<group>"; };
@@ -108,10 +118,12 @@
 		D128E0B21FA1777A00D636C4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D14784141FC13D300077D9F5 /* iOSDevCenters+GIF.swift */,
 				D128E0B41FA1779E00D636C4 /* Extension.swift */,
 				D1FDB6AB1FACCBB600CC1A69 /* CustomImageView.swift */,
 				D1FDB6B31FB25E5300CC1A69 /* XMLFeedParser.swift */,
 				D1A5CA811FBD22760040B3EB /* Reachability.swift */,
+				D18A7EFC1FC2A79300328315 /* SettingsMenuLauncherInReadingsVC.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -145,8 +157,8 @@
 				D1622E0F1FA11EBB0079A6ED /* Main.storyboard */,
 				D1622E121FA11EBB0079A6ED /* Assets.xcassets */,
 				D1622E141FA11EBB0079A6ED /* LaunchScreen.storyboard */,
+				D187FA821FC015A900FDBFAE /* GoogleService-Info.plist */,
 				D1622E171FA11EBB0079A6ED /* Info.plist */,
-				D128E0BE1FA23F5200D636C4 /* GoogleService-Info.plist */,
 			);
 			path = "Daily Readings";
 			sourceTree = "<group>";
@@ -174,6 +186,9 @@
 				D1A5CA791FBBBDED0040B3EB /* RssCategoriesFooterCell.swift */,
 				D1FDB6AF1FB253CC00CC1A69 /* NewsFeedCell.swift */,
 				D1A5CA7D1FBC12A60040B3EB /* MoreMenuCell.swift */,
+				D18A7EFE1FC2C24400328315 /* colorMenuCell.swift */,
+				D18A7F001FC2D35100328315 /* fontSizeMenuCell.swift */,
+				D187FA7E1FBE401000FDBFAE /* DummyCellForDailyReadingsHeight.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,7 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1622E161FA11EBB0079A6ED /* LaunchScreen.storyboard in Resources */,
-				D128E0BF1FA23F5200D636C4 /* GoogleService-Info.plist in Resources */,
+				D187FA831FC015A900FDBFAE /* GoogleService-Info.plist in Resources */,
 				D1622E131FA11EBB0079A6ED /* Assets.xcassets in Resources */,
 				D1622E111FA11EBB0079A6ED /* Main.storyboard in Resources */,
 			);
@@ -320,7 +335,9 @@
 				D128E0C51FA2478600D636C4 /* DailyReadingsCell.swift in Sources */,
 				D1FDB6AC1FACCBB600CC1A69 /* CustomImageView.swift in Sources */,
 				D1FDB6A41FAAD0FF00CC1A69 /* ReadingsDisplayController.swift in Sources */,
+				D187FA7F1FBE401000FDBFAE /* DummyCellForDailyReadingsHeight.swift in Sources */,
 				D128E0B51FA1779E00D636C4 /* Extension.swift in Sources */,
+				D18A7F011FC2D35100328315 /* fontSizeMenuCell.swift in Sources */,
 				D1FDB6B01FB253CC00CC1A69 /* NewsFeedCell.swift in Sources */,
 				D17259A11FBA67BE00F4B4E7 /* DataService.swift in Sources */,
 				D172599F1FBA453000F4B4E7 /* RssCategories.swift in Sources */,
@@ -332,14 +349,17 @@
 				D1FDB6A81FAB8D6800CC1A69 /* Section.swift in Sources */,
 				D1A5CA7A1FBBBDED0040B3EB /* RssCategoriesFooterCell.swift in Sources */,
 				D128E0C11FA2424A00D636C4 /* MainTabBarController.swift in Sources */,
+				D18A7EFF1FC2C24400328315 /* colorMenuCell.swift in Sources */,
 				D172599D1FBA449A00F4B4E7 /* RssCategoriesCell.swift in Sources */,
 				D1622E0C1FA11EBB0079A6ED /* AppDelegate.swift in Sources */,
 				D1FDB6A61FAAD32300CC1A69 /* ReadingsDisplayCell.swift in Sources */,
 				D1FDB6AA1FAB939F00CC1A69 /* HeaderCell.swift in Sources */,
 				D1A5CA801FBCF8EC0040B3EB /* MoreMenuItem.swift in Sources */,
+				D14784151FC13D300077D9F5 /* iOSDevCenters+GIF.swift in Sources */,
 				D128E0C31FA2439200D636C4 /* DailyReadingsController.swift in Sources */,
 				D1FDB6AE1FB251CF00CC1A69 /* RssCategoriesController.swift in Sources */,
 				D1A5CA821FBD22760040B3EB /* Reachability.swift in Sources */,
+				D18A7EFD1FC2A79300328315 /* SettingsMenuLauncherInReadingsVC.swift in Sources */,
 				D1A5CA7E1FBC12A60040B3EB /* MoreMenuCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,7 +504,7 @@
 				INFOPLIST_FILE = "Daily Readings/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "KevinVu.Daily-Readings";
+				PRODUCT_BUNDLE_IDENTIFIER = "KevinVu.Tin-Thac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -502,7 +522,7 @@
 				INFOPLIST_FILE = "Daily Readings/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "KevinVu.Daily-Readings";
+				PRODUCT_BUNDLE_IDENTIFIER = "KevinVu.Tin-Thac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

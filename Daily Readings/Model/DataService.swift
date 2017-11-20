@@ -10,8 +10,7 @@ import Foundation
 
 class DataService {
     
-     static let instance = DataService()
-    
+    static let instance = DataService()
     
     let rssCategories = [RssCategories(title: "Tin Giáo Hội Việt Nam", urlLink: "http://baoconggiao.net/index.php/rss/tin-giao-hoi-viet-nam/", imageName: "Tin Vietnam"),
                          RssCategories(title: "Tin Vatican", urlLink: "http://baoconggiao.net/index.php/rss/tin-vatican/", imageName: "Tin Vatican"),
@@ -19,9 +18,8 @@ class DataService {
                          RssCategories(title: "Tin Giáo Xứ - Hội Đoàn", urlLink: "http://baoconggiao.net/index.php/rss/tin-giao-xu-hoi-doan/", imageName: "Tin Cong Dong")]
     
     let moreMenuItem = [MoreMenuItem(title: "Đánh Giá Ứng Dụng", imageName: "rate"),
-                        MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "help"),
+                        MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "email"),
                         MoreMenuItem(title: "Chia Sẻ", imageName: "share")]
-    
     
     
     func getCategories() -> [RssCategories]{
@@ -33,6 +31,6 @@ class DataService {
     func getMenuItem() -> [MoreMenuItem]{
         return moreMenuItem
     }
-    
-    
+
+
 }
