@@ -11,6 +11,7 @@ import MessageUI
 import StoreKit
 
 private let reuseIdentifier = "Cell"
+private let footerCellId = "footerCell"
 
 class MoreMenuController: UICollectionViewController, MFMailComposeViewControllerDelegate {
 
@@ -25,6 +26,7 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
         collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         // Register cell classes
         self.collectionView!.register(MoreMenuCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView?.register(FooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerCellId)
     }
     
     func configuredMailComposeVC() -> MFMailComposeViewController{
@@ -34,7 +36,6 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
         mailComposerVC.setSubject("Trợ Giúp / Góp Ý")
         let systemVersion = UIDevice.current.systemVersion
         let model = UIDevice.current.model
-        
         mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này ///\n\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
         return mailComposerVC
     }
@@ -82,19 +83,34 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerCellId, for: indexPath) as! FooterCell
+        return footer
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 140)
+    }
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            SKStoreReviewController.requestReview()
+            let appId = "id1315378723"
+//            let appStoreUrl = "https://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8&action=write-review"
+            let appStoreUrl = "itms-apps://itunes.apple.com/app/" + appId
+            let appUrl = URL(string: appStoreUrl)!
+            print(appUrl)
+            UIApplication.shared.open(appUrl, options: [:], completionHandler: { (complete) in
+                print(complete)
+            })
+//            if #available(iOS 10.3, *) {
+//                SKStoreReviewController.requestReview()
+//            } else {
+//                // show alert
+//            }
         }else if indexPath.item == 1 {
-            let mailComposedVC = configuredMailComposeVC()
-            if MFMailComposeViewController.canSendMail(){
-                self.present(mailComposedVC, animated: true, completion: nil)
-            } else {
-//                self.showSendMailErrorAlert()
-            }
+            guard let url = URL(string: "https://www.facebook.com/T%C3%ADn-Th%C3%A1c-1775364552475010/") else {return}
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            
         }else if indexPath.item == 2 {
-            let activityController = UIActivityViewController(activityItems: ["Tải ứng dụng \"Tín Thác\" trên App Store"], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: ["Tín Thác - Lời Chúa Hằng Ngày\n https://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8"], applicationActivities: nil)
             activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
                 if !completed {
                     print("user cancelled")
@@ -104,6 +120,15 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
             }
             activityController.popoverPresentationController?.sourceView = self.view
             present(activityController, animated: true, completion: nil)
+        }
+        else if indexPath.item == 3{
+            let mailComposedVC = configuredMailComposeVC()
+            if MFMailComposeViewController.canSendMail(){
+                self.present(mailComposedVC, animated: true, completion: nil)
+            } else {
+                //                self.showSendMailErrorAlert()
+            }
+            
         }
     }
     

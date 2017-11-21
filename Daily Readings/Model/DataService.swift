@@ -18,8 +18,9 @@ class DataService {
                          RssCategories(title: "Tin Giáo Xứ - Hội Đoàn", urlLink: "http://baoconggiao.net/index.php/rss/tin-giao-xu-hoi-doan/", imageName: "Tin Cong Dong")]
     
     let moreMenuItem = [MoreMenuItem(title: "Đánh Giá Ứng Dụng", imageName: "rate"),
-                        MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "email"),
-                        MoreMenuItem(title: "Chia Sẻ", imageName: "share")]
+                        MoreMenuItem(title: "Theo dõi trên trang Facebook", imageName: "followFacebook"),
+                        MoreMenuItem(title: "Chia Sẻ", imageName: "share"),
+                        MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "email")]
     
     
     func getCategories() -> [RssCategories]{

@@ -255,7 +255,7 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
     
     
 }
-extension DailyReadingsController: DailyReadingsCellDelegate{
+extension DailyReadingsController: DailyReadingsCellDelegate {
     
     func handleSharePressed(image: UIImage, todayDate: String, todayMass: String) {
         let generator = UIImpactFeedbackGenerator(style: .medium)

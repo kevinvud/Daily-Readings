@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DailyReadingsCellDelegate {
+protocol DailyReadingsCellDelegate: class {
     func handleSharePressed(image: UIImage, todayDate: String, todayMass: String)
 }
 
@@ -21,7 +21,7 @@ class DailyReadingsCell: UICollectionViewCell {
     var todayMassFontSize: CGFloat = 24
     var contentTextViewHeight: CGFloat = 100
     var imageViewHeight: CGFloat = 500
-    var delegate: DailyReadingsCellDelegate?
+    weak var delegate: DailyReadingsCellDelegate?
     var readingData: ReadingsContent? {
         didSet{
             DispatchQueue.main.async {
@@ -158,7 +158,7 @@ class DailyReadingsCell: UICollectionViewCell {
     }
 
     func setupViews(){
-        if(UIDevice.current.model == "iPhone"){
+        if UIDevice.current.model == "iPhone" || UIDevice.current.model == "iPod"{
             textFontSize = 18
             dateLabelFontSize = 22
             todayMassFontSize = 20
@@ -175,12 +175,6 @@ class DailyReadingsCell: UICollectionViewCell {
 //        imageView.addSubview(TitleOnImage)
         addSubview(imageView)
         addSubview(stackView)
-//        addSubview(todayMass)
-//        addSubview(contentTextView)
-//        addSubview(dateLabel)
-//        addSubview(todayLabel)
-//        addSubview(readMoreLabel)
-        
         addSubview(lineSeparator)
         addSubview(shareButton)
 
@@ -188,9 +182,6 @@ class DailyReadingsCell: UICollectionViewCell {
 
         if #available(iOS 11.0, *) {
             imageView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: imageViewHeight)
-//            TitleOnImage.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: frame.height)
-//            TitleOnImage.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-//
             stackView.anchor(top: imageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: shareButton.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 10, paddingRight: 15, width: 0, height: 0)
             contentTextView.heightAnchor.constraint(equalToConstant: contentTextViewHeight).isActive = true
             shareButton.anchor(top: nil, left: nil, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: 80, height: 25)

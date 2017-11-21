@@ -8,17 +8,25 @@
 
 import UIKit
 
+
 class ReadingsDisplayCell: UICollectionViewCell {
     
-    let screenSize: CGRect = UIScreen.main.bounds
+    let titleLabel: UILabel = {
+        let lb = UILabel()
+        lb.numberOfLines = 0
+        lb.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        lb.font = UIFont.boldSystemFont(ofSize: 25)
+        return lb
     
+    }()
+
     let cellContentLabel: UITextView = {
         let label = UITextView()
-        label.font = UIFont(name: "Avenir Next", size: 20)
+//        label.font = UIFont(name: "Avenir Next", size: textSize)
         label.isScrollEnabled = false
         label.isEditable = false
-        label.clipsToBounds = true
-        label.layer.masksToBounds = true
+        label.textContainerInset = UIEdgeInsets.zero
+        label.textContainer.lineFragmentPadding = 0
         label.backgroundColor = .clear
         return label
     }()
@@ -32,7 +40,6 @@ class ReadingsDisplayCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = #colorLiteral(red: 0.9842278361, green: 0.9843688607, blue: 0.9841969609, alpha: 1)
         setupViews()
     }
     
@@ -41,13 +48,17 @@ class ReadingsDisplayCell: UICollectionViewCell {
     }
     
     func setupViews(){
+        addSubview(titleLabel)
         addSubview(cellContentLabel)
         addSubview(lineSeparator)
+        
         if #available(iOS 11.0, *) {
-            cellContentLabel.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+            titleLabel.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor , bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
+            cellContentLabel.anchor(top: titleLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
         } else {
-            cellContentLabel.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+            titleLabel.anchor(top: topAnchor, left: leftAnchor , bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
+            cellContentLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
         }
     }
