@@ -33,8 +33,12 @@ class RssCategoriesCell: UICollectionViewCell {
         lb.numberOfLines = 0
         lb.textAlignment = .center
         lb.textColor = .white
-        lb.font = UIFont.boldSystemFont(ofSize: 30)
-        lb.font = UIFont(name: "Georgia", size: 30)
+        lb.layer.shadowColor = UIColor.black.cgColor
+        lb.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        lb.layer.shadowRadius = 2.0
+        lb.layer.shadowOpacity = 1.0
+        lb.layer.masksToBounds = false
+        lb.font = UIFont(name: "AvenirNext-Bold", size: 30)
         return lb
     }()
     let lineSeparator: UIView = {

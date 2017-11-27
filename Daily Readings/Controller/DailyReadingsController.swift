@@ -13,57 +13,47 @@ private let cellId = "DailyCellId"
 
 class DailyReadingsController: UICollectionViewController {
     
-    let screenSize: CGRect = UIScreen.main.bounds
     var currentDate = Date()
     var data = [ReadingsContent]()
     var activityIndicator = UIActivityIndicatorView()
     let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
     var strLabel = UILabel()
-//    let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
-        label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền."
+        label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền hoặc tắt xong mở ứng dụng lại."
         label.font = UIFont.init(name: "Georgia", size: 20)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.isHidden = true
         return label
     }()
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if screenSize.width < 768 {
-//            appdelegate.shouldSupportAllOrientation = false
-//        } else{
-//            appdelegate.shouldSupportAllOrientation = true
-//        }
         let attrs = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Bài Đọc"
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(checkIfRefreshIsNeeded),
             name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil)
         
-//            if UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeLeft) || UIDeviceOrientationIsLandscape(UIDeviceOrientation.landscapeRight){
-//                let value = UIInterfaceOrientation.portrait.rawValue
-//                UIDevice.current.setValue(value, forKey: "orientation")
-//            }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-      
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        
+        collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
         collectionView?.alwaysBounceVertical = true
@@ -108,30 +98,30 @@ class DailyReadingsController: UICollectionViewController {
         
     }
     
-//    func showActivityIndicator() {
-//
-//        strLabel.removeFromSuperview()
-//        activityIndicator.removeFromSuperview()
-//        effectView.removeFromSuperview()
-//
-//        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-//        strLabel.text = "Refreshing..."
-//        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-//        strLabel.textColor = .black
-//
-//        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
-//        effectView.layer.cornerRadius = 15
-//        effectView.clipsToBounds = true
-//
-//        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-//        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-//        activityIndicator.startAnimating()
-//
-//        effectView.contentView.addSubview(activityIndicator)
-//        effectView.contentView.addSubview(strLabel)
-//        view.addSubview(effectView)
-//
-//    }
+    //    func showActivityIndicator() {
+    //
+    //        strLabel.removeFromSuperview()
+    //        activityIndicator.removeFromSuperview()
+    //        effectView.removeFromSuperview()
+    //
+    //        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
+    //        strLabel.text = "Refreshing..."
+    //        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+    //        strLabel.textColor = .black
+    //
+    //        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
+    //        effectView.layer.cornerRadius = 15
+    //        effectView.clipsToBounds = true
+    //
+    //        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    //        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
+    //        activityIndicator.startAnimating()
+    //
+    //        effectView.contentView.addSubview(activityIndicator)
+    //        effectView.contentView.addSubview(strLabel)
+    //        view.addSubview(effectView)
+    //
+    //    }
     
     func handleRefresh() {
         self.data.removeAll()
@@ -143,13 +133,13 @@ class DailyReadingsController: UICollectionViewController {
     
     @objc func handleReloadCell() {
         DispatchQueue.main.async {
-                self.collectionView?.reloadData()
+            self.collectionView?.reloadData()
         }
     }
     
     @objc func checkDate() {
-//        showActivityIndicator()
-        let date = Date()
+        //        showActivityIndicator()
+        var todayDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMMM yyyy"
         
@@ -157,29 +147,26 @@ class DailyReadingsController: UICollectionViewController {
         VNDateFormatter.dateFormat = "EEEE, d MMMM, yyyy"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
         
-        guard var tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date) else {return}
         
-        guard let endDate = Calendar.current.date(byAdding: .day, value: -1, to: date) else {return}
+        guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -2, to: todayDate) else {return}
         
-       
-        while tomorrow >= endDate {
-            let tomorrowNow = formatter.string(from: tomorrow)
-            let VNDateFormat = VNDateFormatter.string(from: tomorrow)
+        
+        while todayDate > yesterdayDate {
+            let todayDateFormat = formatter.string(from: todayDate)
+            let VnTodayDateFormat = VNDateFormatter.string(from: todayDate)
             
             var checkTodayOrTomorrowOrYesterdayLabel = ""
             
-            if NSCalendar.current.isDateInTomorrow(tomorrow) {
-                checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Ngày Mai"
-            } else if NSCalendar.current.isDateInToday(tomorrow) {
-                checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Hôm Nay"
-            } else{
-                checkTodayOrTomorrowOrYesterdayLabel = "Bài Đọc Hôm Qua"
+            if NSCalendar.current.isDateInToday(todayDate) {
+                checkTodayOrTomorrowOrYesterdayLabel = "Hôm Nay"
+            } else if NSCalendar.current.isDateInYesterday(todayDate) {
+                checkTodayOrTomorrowOrYesterdayLabel = "Hôm Qua"
             }
-
-            Database.database().reference().child("Brain").child("Readings Data").child("Date").child(tomorrowNow).observeSingleEvent(of: .value, with: { (snapshot) in
+            Database.database().reference().child("Brain").child("Readings Data").child("Date").child(todayDateFormat).observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let dictionary = snapshot.value as? [String: Any] else {return}
                 self.errorMessageLabel.isHidden = true
-                let readingContent = ReadingsContent(dictionary: dictionary, dateLabel: VNDateFormat, checkTodayOrTomorrowOrYesterdayLabel: checkTodayOrTomorrowOrYesterdayLabel)
+                
+                let readingContent = ReadingsContent(dictionary: dictionary, dateLabel: VnTodayDateFormat, checkTodayOrTomorrowOrYesterdayLabel: checkTodayOrTomorrowOrYesterdayLabel)
                 self.data.append(readingContent)
                 self.data.sort(by: { (message1, message2) -> Bool in
                     return VNDateFormatter.date(from: message1.dateLabel)! > VNDateFormatter.date(from: message2.dateLabel)!
@@ -187,13 +174,8 @@ class DailyReadingsController: UICollectionViewController {
                 self.handleReloadCell()
                 
             }, withCancel: nil)
-            tomorrow = Calendar.current.date(byAdding: .day, value: -1, to: tomorrow)!
+            todayDate = Calendar.current.date(byAdding: .day, value: -1, to: todayDate)!
         }
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.70, execute: {
-//            self.activityIndicator.stopAnimating()
-//            self.effectView.removeFromSuperview()
-//
-//        })
     }
 }
 
@@ -204,20 +186,24 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return data.count
+        return data.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DailyReadingsCell
-            if data.count > 0 {
-                cell.delegate = self
-                cell.readingData = data[indexPath.item]
-            } else{
-                print("OUT OF BOUNCE IS HERE")
-                cell.readingData = nil
+        if data.count > 0 {
+            cell.delegate = self
+            cell.readingData = data[indexPath.item]
+            if indexPath.item == 0 {
+                cell.todayLabel.backgroundColor = UIColor.rgb(red: 218, green: 207, blue: 239)
+                cell.todayLabel.textAlignment = .center
             }
-
-             return cell
+        } else{
+            print("OUT OF BOUNCE IS HERE")
+            cell.readingData = nil
+        }
+        
+        return cell
         
         
     }
@@ -225,14 +211,15 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let dummyCell = DummyCellForDailyReadingsHeight(frame: frame)
-        dummyCell.cellContentLabel.text = "\(data[indexPath.item].dateLabel)\n \(String(describing: data[indexPath.item].todayMass))\n \(String(describing: data[indexPath.item].checkTodayOrTomorrowOrYesterdayLabel))\n"
+        dummyCell.cellContentLabel.text = "\(String(describing: data[indexPath.item].todayMass))"
         dummyCell.layoutIfNeeded()
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-        if (UIDevice.current.model == "iPhone"){
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 80 + 51 + 10)
+        print(estimatedSize.height)
+        if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 15 + 20 + 15 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
         } else{
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 500 + 150 + 51 + 10)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 500 + 15 + 20 + 15 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
         }
         
     }
@@ -245,7 +232,6 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         let readingsData = data[indexPath.item]
         let readingsDisplayController = ReadingsDisplayController(collectionViewLayout: UICollectionViewFlowLayout())
         readingsDisplayController.readingData = readingsData
-//        readingsDisplayController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(readingsDisplayController, animated: true)
     }
     
@@ -260,7 +246,8 @@ extension DailyReadingsController: DailyReadingsCellDelegate {
     func handleSharePressed(image: UIImage, todayDate: String, todayMass: String) {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
-        let shareItems: Array = ["\(todayDate)\n\(todayMass)", image] as [Any]
+        
+        let shareItems: Array = ["\(todayDate)\n\(todayMass)\n\nhttps://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8"] as [Any]
         let activityController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
         activityController.excludedActivityTypes = [UIActivityType.saveToCameraRoll, .assignToContact, .assignToContact, .openInIBooks]
         activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
@@ -274,3 +261,4 @@ extension DailyReadingsController: DailyReadingsCellDelegate {
         present(activityController, animated: true, completion: nil)
     }
 }
+

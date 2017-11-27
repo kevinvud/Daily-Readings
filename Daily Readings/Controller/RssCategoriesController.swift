@@ -14,13 +14,12 @@ private let footerId = "footerId"
 
 class RssCategoriesController: UICollectionViewController {
     
-    let screenSize: CGRect = UIScreen.main.bounds
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         let attrs = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Tin Công Giáo"
@@ -56,7 +55,7 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-         if (UIDevice.current.model == "iPhone"){
+         if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
             return CGSize(width: view.frame.width, height: 200)
         } else{
             return CGSize(width: view.frame.width, height: 350)

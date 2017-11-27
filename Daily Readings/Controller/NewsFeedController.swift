@@ -18,7 +18,7 @@ class NewsFeedController: UICollectionViewController {
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
-        label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền."
+        label.text = "lại."
         label.font = UIFont.init(name: "Georgia", size: 20)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -28,9 +28,9 @@ class NewsFeedController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         let attrs = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = data?.title

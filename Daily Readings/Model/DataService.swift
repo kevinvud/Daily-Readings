@@ -20,6 +20,7 @@ class DataService {
     let moreMenuItem = [MoreMenuItem(title: "Đánh Giá Ứng Dụng", imageName: "rate"),
                         MoreMenuItem(title: "Theo dõi trên trang Facebook", imageName: "followFacebook"),
                         MoreMenuItem(title: "Chia Sẻ", imageName: "share"),
+                        MoreMenuItem(title: "Đóng Góp", imageName: "donate"),
                         MoreMenuItem(title: "Trợ Giúp / Góp Ý", imageName: "email")]
     
     

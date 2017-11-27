@@ -19,11 +19,12 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
         super.viewDidLoad()
         collectionView?.alwaysBounceVertical = true
         let attrs = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Thông Tin"
-        collectionView?.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
+        
         // Register cell classes
         self.collectionView!.register(MoreMenuCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView?.register(FooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerCellId)
@@ -36,7 +37,7 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
         mailComposerVC.setSubject("Trợ Giúp / Góp Ý")
         let systemVersion = UIDevice.current.systemVersion
         let model = UIDevice.current.model
-        mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này ///\n\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
+        mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này. ///\n\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
         return mailComposerVC
     }
 //    func showSendMailErrorAlert() {
@@ -110,7 +111,7 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             
         }else if indexPath.item == 2 {
-            let activityController = UIActivityViewController(activityItems: ["Tín Thác - Lời Chúa Hằng Ngày\n https://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8"], applicationActivities: nil)
+            let activityController = UIActivityViewController(activityItems: ["Lời Chúa hằng ngày, ngày lễ, và more...tất cả chỉ trong 1 ứng dụng\n\nhttps://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8"], applicationActivities: nil)
             activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
                 if !completed {
                     print("user cancelled")
@@ -121,7 +122,13 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
             activityController.popoverPresentationController?.sourceView = self.view
             present(activityController, animated: true, completion: nil)
         }
-        else if indexPath.item == 3{
+        else if indexPath.item == 3 {
+            let url = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRM6KF2K3EA7Q"
+            guard let linkUrl = URL(string: url) else {return}
+            UIApplication.shared.open(linkUrl, options: [ : ], completionHandler: nil)
+    
+        }
+        else if indexPath.item == 4{
             let mailComposedVC = configuredMailComposeVC()
             if MFMailComposeViewController.canSendMail(){
                 self.present(mailComposedVC, animated: true, completion: nil)

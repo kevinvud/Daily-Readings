@@ -48,13 +48,9 @@ class FooterCell: UICollectionViewCell {
         addSubview(imageView)
         addSubview(displayLabel
         )
-        if #available(iOS 11.0, *) {
-            imageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            displayLabel.anchor(top: imageView.bottomAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0, width: 250, height: 0)
-            displayLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        } else {
-           
-        }
+        imageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 35, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 35, height: 35)
+        imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        displayLabel.anchor(top: imageView.bottomAnchor, left: nil, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 0, width: 250, height: 0)
+        displayLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
 }

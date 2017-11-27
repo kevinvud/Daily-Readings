@@ -14,15 +14,13 @@ class ReadingsDisplayCell: UICollectionViewCell {
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
-        lb.font = UIFont(name: "AvenirNext-Medium", size: 25)
-        lb.font = UIFont.boldSystemFont(ofSize: 25)
         return lb
-    
+        
     }()
-
+    
     let cellContentLabel: UITextView = {
         let label = UITextView()
-//        label.font = UIFont(name: "Avenir Next", size: textSize)
+        //        label.font = UIFont(name: "Avenir Next", size: textSize)
         label.isScrollEnabled = false
         label.isEditable = false
         label.textContainerInset = UIEdgeInsets.zero
@@ -53,7 +51,7 @@ class ReadingsDisplayCell: UICollectionViewCell {
         addSubview(lineSeparator)
         
         if #available(iOS 11.0, *) {
-            titleLabel.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor , bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 30)
+            titleLabel.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor , bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 40)
             cellContentLabel.anchor(top: titleLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
         } else {
@@ -63,3 +61,4 @@ class ReadingsDisplayCell: UICollectionViewCell {
         }
     }
 }
+

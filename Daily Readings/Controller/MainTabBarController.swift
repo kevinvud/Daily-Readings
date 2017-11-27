@@ -13,12 +13,14 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupViewControllers()
     }
     
     func setupViewControllers() {
         
-
+        tabBar.tintColor = UIColor.rgb(red: 59, green: 104, blue: 198)
+        
         let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "read"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         let secondController = templateNavController(tabTitle: "Tin Tức", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
@@ -28,7 +30,6 @@ class MainTabBarController: UITabBarController {
         viewControllers = [firstController, secondController, thirdController]
         
 //        guard let items = tabBar.items else { return }
-        tabBar.tintColor = .black
         
 //        for item in items {
 //            item.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: -4, right: 0)

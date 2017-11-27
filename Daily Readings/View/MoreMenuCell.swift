@@ -12,8 +12,8 @@ class MoreMenuCell: UICollectionViewCell {
     
     override var isSelected: Bool{
         didSet{
-            label.textColor =  isSelected ? UIColor.orange : UIColor.black
-            imageView.tintColor = isSelected ? UIColor.orange : UIColor.black
+            label.textColor =  isSelected ? UIColor.rgb(red: 59, green: 104, blue: 198) : UIColor.black
+            imageView.tintColor = isSelected ? UIColor.rgb(red: 59, green: 104, blue: 198) : UIColor.black
         }
     }
     
