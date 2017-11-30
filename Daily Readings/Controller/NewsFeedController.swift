@@ -15,15 +15,37 @@ class NewsFeedController: UICollectionViewController {
     
     var data: RssCategories?
     var rssItems = [RSSItem]()
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
-        label.text = "lại."
+        label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền hoặc tắt xong mở ứng dụng lại."
         label.font = UIFont.init(name: "Georgia", size: 20)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.isHidden = true
         return label
+    }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.activityIndicatorViewStyle = .whiteLarge
+        ai.color = .black
+        ai.hidesWhenStopped = true
+        return ai
+    }()
+    
+    let activityIndicatorView: UIVisualEffectView = {
+        let view = UIVisualEffectView()
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    let loadingLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Đang tải dữ liệu..."
+        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.textColor = .black
+        return lb
     }()
     
     override func viewDidLoad() {
@@ -35,17 +57,42 @@ class NewsFeedController: UICollectionViewController {
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = data?.title
         
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.contentView.addSubview(activityIndicator)
+        activityIndicatorView.contentView.addSubview(loadingLabel)
+        
+        
         // Register cell classes
         self.collectionView!.register(NewsFeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         checkInternetConnection()
+        showActivityIndicatory()
         fetchData()
+    }
+    
+    func showActivityIndicatory() {
+        
+        activityIndicatorView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 90)
+        activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        activityIndicator.anchor(top: nil, left: activityIndicatorView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 75, height: 75)
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
+        
+        loadingLabel.anchor(top: nil, left: activityIndicator.rightAnchor, bottom: nil, right: activityIndicatorView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 15, width: 0, height: 75)
+        loadingLabel.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
+        
+        activityIndicatorView.effect = UIBlurEffect(style: .prominent)
+        
+        activityIndicator.startAnimating()
     }
     
     func checkInternetConnection() {
         if currentReachabilityStatus == .notReachable{
             DispatchQueue.main.async {
                 self.errorMessageLabel.isHidden = false
-                self.activityIndicator.isHidden = true
+                self.activityIndicatorView.removeFromSuperview()
+                self.activityIndicator.stopAnimating()
                 self.displayErrorMessage()
             }
             
@@ -63,17 +110,13 @@ class NewsFeedController: UICollectionViewController {
     
         func fetchData () {
             guard let url = data?.urlLink else {return}
-            self.view.addSubview(activityIndicator)
-            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            activityIndicator.startAnimating()
             let feedparser = XMLFeedParser()
             feedparser.parseFeed(url: url) { (rssItemsFromServer) in
                 self.rssItems = rssItemsFromServer
                 DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
+                    self.activityIndicatorView.removeFromSuperview()
                     self.activityIndicator.stopAnimating()
+                    self.collectionView?.reloadData()
                 }
             }
     

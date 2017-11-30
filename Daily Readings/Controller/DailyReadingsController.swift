@@ -15,8 +15,6 @@ class DailyReadingsController: UICollectionViewController {
     
     var currentDate = Date()
     var data = [ReadingsContent]()
-    var activityIndicator = UIActivityIndicatorView()
-    let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
     var strLabel = UILabel()
     
     let errorMessageLabel: UILabel  = {
@@ -27,6 +25,29 @@ class DailyReadingsController: UICollectionViewController {
         label.numberOfLines = 0
         label.isHidden = true
         return label
+    }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+       let ai = UIActivityIndicatorView()
+        ai.activityIndicatorViewStyle = .whiteLarge
+        ai.color = .black
+        ai.hidesWhenStopped = true
+        return ai
+    }()
+    
+    let activityIndicatorView: UIVisualEffectView = {
+        let view = UIVisualEffectView()
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    let loadingLabel: UILabel = {
+        let lb = UILabel()
+        lb.text = "Đang tải dữ liệu..."
+        lb.font = UIFont.boldSystemFont(ofSize: 18)
+        lb.textColor = .black
+        return lb
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,21 +74,44 @@ class DailyReadingsController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.contentView.addSubview(activityIndicator)
+        activityIndicatorView.contentView.addSubview(loadingLabel)
+
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
         collectionView?.alwaysBounceVertical = true
         checkInternetConnection()
+        showActivityIndicatory()
         checkDate()
         
+    }
+    
+    func showActivityIndicatory() {
+        
+        activityIndicatorView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 280, height: 90)
+        activityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        activityIndicator.anchor(top: nil, left: activityIndicatorView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 75, height: 75)
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
+        
+        loadingLabel.anchor(top: nil, left: activityIndicator.rightAnchor, bottom: nil, right: activityIndicatorView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 15, width: 0, height: 75)
+         loadingLabel.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
+        
+        activityIndicatorView.effect = UIBlurEffect(style: .prominent)
+        
+        activityIndicator.startAnimating()
     }
     
     func checkInternetConnection() {
         if currentReachabilityStatus == .notReachable{
             DispatchQueue.main.async {
+                self.activityIndicatorView.removeFromSuperview()
+                self.activityIndicator.stopAnimating()
                 self.errorMessageLabel.isHidden = false
-                self.effectView.isHidden = true
-                self.activityIndicator.isHidden = true
                 self.displayErrorMessage()
             }
             
@@ -98,30 +142,6 @@ class DailyReadingsController: UICollectionViewController {
         
     }
     
-    //    func showActivityIndicator() {
-    //
-    //        strLabel.removeFromSuperview()
-    //        activityIndicator.removeFromSuperview()
-    //        effectView.removeFromSuperview()
-    //
-    //        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 160, height: 46))
-    //        strLabel.text = "Refreshing..."
-    //        strLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-    //        strLabel.textColor = .black
-    //
-    //        effectView.frame = CGRect(x: view.frame.midX - strLabel.frame.width/2, y: view.frame.midY - strLabel.frame.height/2 , width: 160, height: 46)
-    //        effectView.layer.cornerRadius = 15
-    //        effectView.clipsToBounds = true
-    //
-    //        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    //        activityIndicator.frame = CGRect(x: 0, y: 0, width: 46, height: 46)
-    //        activityIndicator.startAnimating()
-    //
-    //        effectView.contentView.addSubview(activityIndicator)
-    //        effectView.contentView.addSubview(strLabel)
-    //        view.addSubview(effectView)
-    //
-    //    }
     
     func handleRefresh() {
         self.data.removeAll()
@@ -138,11 +158,9 @@ class DailyReadingsController: UICollectionViewController {
     }
     
     @objc func checkDate() {
-        //        showActivityIndicator()
         var todayDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMMM yyyy"
-        
         let VNDateFormatter = DateFormatter()
         VNDateFormatter.dateFormat = "EEEE, d MMMM, yyyy"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
@@ -172,9 +190,14 @@ class DailyReadingsController: UICollectionViewController {
                     return VNDateFormatter.date(from: message1.dateLabel)! > VNDateFormatter.date(from: message2.dateLabel)!
                 })
                 self.handleReloadCell()
+                DispatchQueue.main.async {
+                    self.activityIndicatorView.removeFromSuperview()
+                    self.activityIndicator.stopAnimating()
+                }
                 
             }, withCancel: nil)
             todayDate = Calendar.current.date(byAdding: .day, value: -1, to: todayDate)!
+       
         }
     }
 }
@@ -215,7 +238,6 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         dummyCell.layoutIfNeeded()
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-        print(estimatedSize.height)
         if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
             return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 15 + 20 + 15 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
         } else{
