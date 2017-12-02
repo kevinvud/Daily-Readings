@@ -74,12 +74,9 @@ class NewsFeedCell: UICollectionViewCell {
         stackView.distribution = .fillProportionally
         stackView.spacing = 5
         
-//        addSubview(imageView)
+
         addSubview(stackView)
         addSubview(lineSeparator)
-
-//        imageView.anchor(top: topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 150, height: 150)
-//        imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
 
         if #available(iOS 11.0, *) {
             stackView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 10, paddingRight: 10, width: 0, height: 0)

@@ -89,12 +89,14 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         leftBarButton.addTarget(self, action: #selector(handleGoBack), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftBarButton)
         
-        
         let brighnessRightBarButton = UIButton(type: UIButtonType.system)
         brighnessRightBarButton.setImage(#imageLiteral(resourceName: "brightness").withRenderingMode(.alwaysTemplate), for: .normal)
         brighnessRightBarButton.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         brighnessRightBarButton.tintColor = UIColor.rgb(red: 59, green: 104, blue: 198)
         brighnessRightBarButton.addTarget(self, action: #selector(handleBrightnessChanged), for: .touchUpInside)
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        flexSpace.width = 20
         
         let resizeIcon = UIButton(type: UIButtonType.system)
         resizeIcon.setImage(#imageLiteral(resourceName: "resizeIcon").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -102,9 +104,7 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         resizeIcon.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         resizeIcon.addTarget(self, action: #selector(changeFontSize), for: .touchUpInside)
         
-        //        navigationItem.rightBarButtonItem = [UIBarButtonItem(customView: brighnessRightBarButton)]
-        
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton), UIBarButtonItem(customView: resizeIcon)]
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: brighnessRightBarButton),flexSpace, UIBarButtonItem(customView: resizeIcon)]
     }
     
     @objc func changeFontSize() {

@@ -15,7 +15,6 @@ class DailyReadingsController: UICollectionViewController {
     
     var currentDate = Date()
     var data = [ReadingsContent]()
-    var strLabel = UILabel()
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
@@ -234,7 +233,7 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let dummyCell = DummyCellForDailyReadingsHeight(frame: frame)
-        dummyCell.cellContentLabel.text = "\(String(describing: data[indexPath.item].todayMass))"
+        dummyCell.cellContentLabel.text = data[indexPath.item].todayMass
         dummyCell.layoutIfNeeded()
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)

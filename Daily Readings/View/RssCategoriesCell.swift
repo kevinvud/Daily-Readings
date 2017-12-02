@@ -10,6 +10,7 @@ import UIKit
 
 class RssCategoriesCell: UICollectionViewCell {
     
+    var titleFontSize: CGFloat = 40
     
     var rssCategories: RssCategories? {
         didSet{
@@ -28,7 +29,7 @@ class RssCategoriesCell: UICollectionViewCell {
         return iv
     }()
     
-    let title: UILabel = {
+    lazy var title: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
         lb.textAlignment = .center
@@ -38,7 +39,7 @@ class RssCategoriesCell: UICollectionViewCell {
         lb.layer.shadowRadius = 2.0
         lb.layer.shadowOpacity = 1.0
         lb.layer.masksToBounds = false
-        lb.font = UIFont(name: "AvenirNext-Bold", size: 30)
+        lb.font = UIFont(name: "AvenirNext-Bold", size: titleFontSize)
         return lb
     }()
     let lineSeparator: UIView = {
@@ -51,6 +52,10 @@ class RssCategoriesCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        if UIDevice.current.model == "iPhone" || UIDevice.current.model == "iPod"{
+            titleFontSize = 30
+        }
+        
         setupViews()
     }
     
@@ -68,12 +73,12 @@ class RssCategoriesCell: UICollectionViewCell {
             imageView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
             title.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
             title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
         } else {
             imageView.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
             title.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
             title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 3)
+            lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
         }
         
     }

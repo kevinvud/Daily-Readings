@@ -14,12 +14,17 @@ protocol DailyReadingsCellDelegate: class {
 
 class DailyReadingsCell: UICollectionViewCell {
     
+   
     var textFontSize: CGFloat = 24
     var dateLabelFontSize: CGFloat = 24
     var todayMassFontSize: CGFloat = 26
-    var contentTextViewHeight: CGFloat = 100
-    var imageViewHeight: CGFloat = 500
+    var contentTextViewHeight: CGFloat = 288
+    var imageViewHeight: CGFloat = 512
+    var shareButtonWidth: CGFloat = 100
+    
+    
     weak var delegate: DailyReadingsCellDelegate?
+    
     var readingData: ReadingsContent? {
         didSet{
             DispatchQueue.main.async {
@@ -62,7 +67,7 @@ class DailyReadingsCell: UICollectionViewCell {
     lazy var todayMass: UILabel = {
         let tf = UILabel()
         tf.adjustsFontSizeToFitWidth = true
-        tf.font = UIFont.init(name: "AvenirNext-DemiBold", size: todayMassFontSize)
+        tf.font = UIFont.init(name: "GujaratiSangamMN-Bold", size: todayMassFontSize)
         tf.numberOfLines = 0
         return tf
     }()
@@ -87,12 +92,6 @@ class DailyReadingsCell: UICollectionViewCell {
         return tf
     }()
     
-    let lineSeparator: UIView = {
-        let line = UIView()
-        line.backgroundColor = UIColor.rgb(red: 140, green: 140, blue: 140)
-        return line
-        
-    }()
     
     lazy var shareButton: UIButton = {
         let bt = UIButton(type: .system)
@@ -127,8 +126,9 @@ class DailyReadingsCell: UICollectionViewCell {
             textFontSize = 18
             dateLabelFontSize = 18
             todayMassFontSize = 20
-            contentTextViewHeight = 90
-            imageViewHeight = 250
+            contentTextViewHeight = 144
+            imageViewHeight = 256
+            shareButtonWidth = 80
         }
         
         
@@ -151,7 +151,7 @@ class DailyReadingsCell: UICollectionViewCell {
             
             contentTextView.anchor(top: todayLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
             
-            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: 80, height: 25)
+            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
             
         } else {
             dateLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 20)
@@ -162,18 +162,19 @@ class DailyReadingsCell: UICollectionViewCell {
             
             todayLabel.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
             
-            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
+            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: contentTextViewHeight)
             
-            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: 80, height: 25)
+            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
         }
     }
     
     
     func setupLabelDisplayed(){
         DispatchQueue.main.async {
-            guard let firstReading = self.readingData?.reading1 else {return}
+            var firstReading = self.readingData?.reading1?.replacingOccurrences(of: "\r\n\r\n", with: "\n")
+            firstReading = firstReading?.replacingOccurrences(of: "\r\n \r\n", with: "\n")
             let attributedText = NSMutableAttributedString(string: "Bài Đọc 1: ", attributes: [NSAttributedStringKey.font : UIFont.init(name: "AvenirNext-Medium", size: self.textFontSize)!])
-            attributedText.append(NSAttributedString(string: "\(firstReading)", attributes: [NSAttributedStringKey.font : UIFont.init(name: "Avenir Next", size: self.textFontSize)!]))
+            attributedText.append(NSAttributedString(string: "\(firstReading ?? "")", attributes: [NSAttributedStringKey.font : UIFont.init(name: "Avenir Next", size: self.textFontSize)!]))
             self.contentTextView.attributedText = attributedText
         }
         

@@ -94,7 +94,7 @@ extension Date {
         VNDateFormatter.dateFormat = "EEEE, d MMMM"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
         
-        let dateCheckAfterFormat = VNDateFormatter.string(from: self).uppercased()
+        let dateCheckAfterFormat = VNDateFormatter.string(from: self)
         
         let minute = 60
         let hour = 60 * minute
