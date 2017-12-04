@@ -33,16 +33,6 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
     var readingCellBackgroundColor: UIColor?
     var readingCellTextColor: UIColor?
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //        let attrs = [
-        //            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Medium", size: 20)!
-        //        ]
-        //        navigationController?.navigationBar.titleTextAttributes = attrs
-        //        navigationItem.title = readingData?.dateLabel
-        
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,14 +56,13 @@ class ReadingsDisplayController: UICollectionViewController, UICollectionViewDel
         // enable swipe back
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //
-        
-        collectionView?.showsVerticalScrollIndicator = true
-        
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 29, height: 29))
         imageView.contentMode = .scaleAspectFill
         let image = UIImage(named: "readingVCNavImage")
         imageView.image = image
-        navigationItem.titleView = imageView
+        self.navigationItem.titleView = imageView
+        
+        collectionView?.showsVerticalScrollIndicator = true
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(ReadingsDisplayCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         

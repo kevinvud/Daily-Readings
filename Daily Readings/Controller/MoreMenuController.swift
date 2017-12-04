@@ -123,12 +123,19 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
             present(activityController, animated: true, completion: nil)
         }
         else if indexPath.item == 3 {
+            let alarmVC = AlarmVC()
+            alarmVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(alarmVC, animated: true)
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
+        }
+            
+        else if indexPath.item == 4 {
             let url = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VRM6KF2K3EA7Q"
             guard let linkUrl = URL(string: url) else {return}
             UIApplication.shared.open(linkUrl, options: [ : ], completionHandler: nil)
     
         }
-        else if indexPath.item == 4{
+        else if indexPath.item == 5{
             let mailComposedVC = configuredMailComposeVC()
             if MFMailComposeViewController.canSendMail(){
                 self.present(mailComposedVC, animated: true, completion: nil)

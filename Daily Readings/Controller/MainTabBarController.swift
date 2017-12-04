@@ -23,7 +23,7 @@ class MainTabBarController: UITabBarController {
         
         let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "read"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        let secondController = templateNavController(tabTitle: "Tin Tức", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let secondController = templateNavController(tabTitle: "Tin Công Giáo", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         let thirdController = templateNavController(tabTitle: "Thông Tin", image: #imageLiteral(resourceName: "menu"), rootViewController: MoreMenuController(collectionViewLayout: UICollectionViewFlowLayout()))
         

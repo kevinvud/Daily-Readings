@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 private let cellId = "DailyCellId"
 
@@ -15,6 +16,8 @@ class DailyReadingsController: UICollectionViewController {
     
     var currentDate = Date()
     var data = [ReadingsContent]()
+    
+    var notificationTime = DateComponents()
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
@@ -51,11 +54,7 @@ class DailyReadingsController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let attrs = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
-        ]
-        navigationController?.navigationBar.titleTextAttributes = attrs
-        navigationItem.title = "Bài Đọc"
+        
         
         NotificationCenter.default.addObserver(
             self,
@@ -81,10 +80,57 @@ class DailyReadingsController: UICollectionViewController {
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
         collectionView?.alwaysBounceVertical = true
+        let attrs = [
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
+        ]
+        navigationController?.navigationBar.titleTextAttributes = attrs
+        navigationItem.title = "Bài Đọc"
+        
         checkInternetConnection()
         showActivityIndicatory()
         checkDate()
+        showNotificaton()
         
+    }
+    
+    
+    func showNotificaton() {
+        
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if (settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .authorized) && DataService.instance.dateInfo.hour == nil
+            {
+                let todayDate = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, d MMMM yyyy"
+                let todayDateFormat = formatter.string(from: todayDate)
+                var todayMass: String?
+                
+                self.notificationTime.hour = 15
+                self.notificationTime.minute = 56
+                
+                Database.database().reference().child("Brain").child("Readings Data").child("Date").child(todayDateFormat).observeSingleEvent(of: .value) { (snapshot) in
+                    guard let dictionary = snapshot.value as? [String: Any] else {return}
+                    todayMass = dictionary["todayMass"] as? String ?? "Vào ứng dụng để xem ngày lễ và bài đọc hôm nay"
+                    guard let contentBody = todayMass else {return}
+
+                    let newComps = DateComponents(calendar: .current, timeZone: .current, hour: self.notificationTime.hour, minute: self.notificationTime.minute)
+                    let content = UNMutableNotificationContent()
+                    content.title = "Ngày Lễ Hôm Nay"
+                    content.body = contentBody
+                    content.sound = UNNotificationSound.default()
+                    
+                    //                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: newComps, repeats: true)
+                    let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+                    
+                    UNUserNotificationCenter.current().add(request) { (error) in
+                        if error != nil {
+                            print(error ?? "Nothing")
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func showActivityIndicatory() {
@@ -154,6 +200,7 @@ class DailyReadingsController: UICollectionViewController {
         DispatchQueue.main.async {
             self.collectionView?.reloadData()
         }
+        
     }
     
     @objc func checkDate() {
@@ -161,12 +208,10 @@ class DailyReadingsController: UICollectionViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMMM yyyy"
         let VNDateFormatter = DateFormatter()
-        VNDateFormatter.dateFormat = "EEEE, d MMMM, yyyy"
+        VNDateFormatter.dateFormat = "d MMMM"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
         
-        
         guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -2, to: todayDate) else {return}
-        
         
         while todayDate > yesterdayDate {
             let todayDateFormat = formatter.string(from: todayDate)
@@ -238,9 +283,9 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
         if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 15 + 20 + 15 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
         } else{
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 500 + 15 + 20 + 15 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 500 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
         }
         
     }
