@@ -12,11 +12,12 @@ class RssCategoriesFooterCell: UICollectionViewCell {
     
     lazy var button: UIButton = {
         let bt = UIButton(type: .system)
-        let attributedText = NSMutableAttributedString(string: "Tin Công Giáo", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue, NSAttributedStringKey.foregroundColor : UIColor.init(white: 0.4, alpha: 1)])
-        attributedText.append(NSAttributedString(string: " được cung cấp bởi Trang Tin Báo Công Giáo", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor : UIColor.init(white: 0.4, alpha: 1)]))
+        let attributedText = NSMutableAttributedString(string: "Tin Công Giáo", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
+        attributedText.append(NSAttributedString(string: " được cung cấp bởi Trang Tin Báo Công Giáo", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)]))
         bt.setAttributedTitle(attributedText, for: .normal)
         bt.addTarget(self, action: #selector(handleTouch), for: .touchUpInside)
         bt.titleLabel?.numberOfLines = 0
+        bt.titleLabel?.textColor = UIColor(white: 0.8, alpha: 1)
         return bt
     }()
     

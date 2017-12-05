@@ -15,7 +15,8 @@ class RssCategoriesCell: UICollectionViewCell {
     var rssCategories: RssCategories? {
         didSet{
             guard let image = rssCategories?.imageName else {return}
-            imageView.image = UIImage(named: image)
+            imageView.image = UIImage(named: image)?.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = .white
             title.text = rssCategories?.title
         }
         
@@ -70,14 +71,16 @@ class RssCategoriesCell: UICollectionViewCell {
         
         
         if #available(iOS 11.0, *) {
-            imageView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: lineSeparator.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-            title.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
-            title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            imageView.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 32, paddingBottom: 0, paddingRight: 0, width: 64, height: 64)
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            title.anchor(top: nil, left: imageView.rightAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 144)
+            title.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
             lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
         } else {
-            imageView.anchor(top: topAnchor, left: leftAnchor, bottom: lineSeparator.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-            title.anchor(top: nil, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
-            title.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            imageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 32, paddingBottom: 0, paddingRight: 0, width: 64, height: 64)
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            title.anchor(top: nil, left: imageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 144)
+            title.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
             lineSeparator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 1)
         }
         

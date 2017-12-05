@@ -10,11 +10,11 @@ import UIKit
 
 class DummyCellForDailyReadingsHeight: UICollectionViewCell {
     
-    var todayMassFontSize: CGFloat = 26
+    var todayMassFontSize: CGFloat = 28
     
     lazy var cellContentLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.init(name: "AvenirNext-DemiBold", size: todayMassFontSize)
+        label.font = UIFont.init(name: "HelveticaNeue-Bold", size: todayMassFontSize)
         label.numberOfLines = 0
         return label
     }()
@@ -24,7 +24,7 @@ class DummyCellForDailyReadingsHeight: UICollectionViewCell {
         super.init(frame: frame)
         
         if UIDevice.current.model == "iPhone" || UIDevice.current.model == "iPod"{
-            todayMassFontSize = 20
+            todayMassFontSize = 22
         }
         
         addSubview(cellContentLabel)

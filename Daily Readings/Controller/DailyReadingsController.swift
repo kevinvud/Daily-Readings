@@ -17,8 +17,6 @@ class DailyReadingsController: UICollectionViewController {
     var currentDate = Date()
     var data = [ReadingsContent]()
     
-    var notificationTime = DateComponents()
-    
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
         label.text = "Không thể kết nối tới Internet. Xin vui lòng kiểm tra đường truyền hoặc tắt xong mở ứng dụng lại."
@@ -30,7 +28,7 @@ class DailyReadingsController: UICollectionViewController {
     }()
     
     let activityIndicator: UIActivityIndicatorView = {
-       let ai = UIActivityIndicatorView()
+        let ai = UIActivityIndicatorView()
         ai.activityIndicatorViewStyle = .whiteLarge
         ai.color = .black
         ai.hidesWhenStopped = true
@@ -75,7 +73,7 @@ class DailyReadingsController: UICollectionViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.contentView.addSubview(activityIndicator)
         activityIndicatorView.contentView.addSubview(loadingLabel)
-
+        
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
@@ -95,40 +93,25 @@ class DailyReadingsController: UICollectionViewController {
     
     
     func showNotificaton() {
-        
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if (settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .authorized) && DataService.instance.dateInfo.hour == nil
+            if (settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .authorized) && DataService.instance.checkScheduled() == false
             {
-                let todayDate = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "EEEE, d MMMM yyyy"
-                let todayDateFormat = formatter.string(from: todayDate)
-                var todayMass: String?
+                var fireTime = DateComponents()
+                fireTime.hour = 17
+                fireTime.minute = 29
+                let content = UNMutableNotificationContent()
+                content.body = "⛪ Người ta sống không chỉ nhờ cơm bánh, nhưng còn nhờ mọi lời miệng Thiên Chúa phán ra. Mt4:4 ⛪"
+                content.sound = UNNotificationSound.default()
                 
-                self.notificationTime.hour = 15
-                self.notificationTime.minute = 56
+                let trigger = UNCalendarNotificationTrigger(dateMatching: fireTime, repeats: true)
+                let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
                 
-                Database.database().reference().child("Brain").child("Readings Data").child("Date").child(todayDateFormat).observeSingleEvent(of: .value) { (snapshot) in
-                    guard let dictionary = snapshot.value as? [String: Any] else {return}
-                    todayMass = dictionary["todayMass"] as? String ?? "Vào ứng dụng để xem ngày lễ và bài đọc hôm nay"
-                    guard let contentBody = todayMass else {return}
-
-                    let newComps = DateComponents(calendar: .current, timeZone: .current, hour: self.notificationTime.hour, minute: self.notificationTime.minute)
-                    let content = UNMutableNotificationContent()
-                    content.title = "Ngày Lễ Hôm Nay"
-                    content.body = contentBody
-                    content.sound = UNNotificationSound.default()
-                    
-                    //                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: newComps, repeats: true)
-                    let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request) { (error) in
-                        if error != nil {
-                            print(error ?? "Nothing")
-                        }
+                UNUserNotificationCenter.current().add(request) { (error) in
+                    if error != nil {
+                        print(error ?? "Nothing")
                     }
                 }
+                
             }
         }
     }
@@ -144,7 +127,7 @@ class DailyReadingsController: UICollectionViewController {
         activityIndicator.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
         
         loadingLabel.anchor(top: nil, left: activityIndicator.rightAnchor, bottom: nil, right: activityIndicatorView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 15, width: 0, height: 75)
-         loadingLabel.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
+        loadingLabel.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
         
         activityIndicatorView.effect = UIBlurEffect(style: .prominent)
         
@@ -241,7 +224,7 @@ class DailyReadingsController: UICollectionViewController {
                 
             }, withCancel: nil)
             todayDate = Calendar.current.date(byAdding: .day, value: -1, to: todayDate)!
-       
+            
         }
     }
 }

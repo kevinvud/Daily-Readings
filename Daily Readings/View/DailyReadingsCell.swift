@@ -17,7 +17,7 @@ class DailyReadingsCell: UICollectionViewCell {
    
     var textFontSize: CGFloat = 24
     var dateLabelFontSize: CGFloat = 24
-    var todayMassFontSize: CGFloat = 26
+    var todayMassFontSize: CGFloat = 28
     var contentTextViewHeight: CGFloat = 288
     var imageViewHeight: CGFloat = 512
     var shareButtonWidth: CGFloat = 100
@@ -67,7 +67,7 @@ class DailyReadingsCell: UICollectionViewCell {
     lazy var todayMass: UILabel = {
         let tf = UILabel()
         tf.adjustsFontSizeToFitWidth = true
-        tf.font = UIFont.init(name: "GujaratiSangamMN-Bold", size: todayMassFontSize)
+        tf.font = UIFont.init(name: "HelveticaNeue-Bold", size: todayMassFontSize)
         tf.numberOfLines = 0
         return tf
     }()
@@ -125,7 +125,7 @@ class DailyReadingsCell: UICollectionViewCell {
         if UIDevice.current.model == "iPhone" || UIDevice.current.model == "iPod"{
             textFontSize = 18
             dateLabelFontSize = 18
-            todayMassFontSize = 20
+            todayMassFontSize = 22
             contentTextViewHeight = 144
             imageViewHeight = 256
             shareButtonWidth = 80
@@ -155,17 +155,17 @@ class DailyReadingsCell: UICollectionViewCell {
             shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
             
         } else {
-            dateLabel.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 20)
-            
-            imageView.anchor(top: dateLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: imageViewHeight)
+            imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: imageViewHeight)
             
             todayMass.anchor(top: imageView.bottomAnchor, left: leftAnchor, bottom: todayLabel.topAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             
             todayLabel.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
             
-            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: shareButtonWidth, height: contentTextViewHeight)
+            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
             
-            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
+            dateLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 0, height: 25)
+            
+            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
         }
     }
     
@@ -173,6 +173,7 @@ class DailyReadingsCell: UICollectionViewCell {
     func setupLabelDisplayed(){
         var firstReading = self.readingData?.reading1?.replacingOccurrences(of: "\r\n \r\n ", with: "\n")
         firstReading = firstReading?.replacingOccurrences(of: "\r\n \r\n", with: "\n")
+        firstReading = firstReading?.replacingOccurrences(of: "\r\n\r\n ", with: "\n")
         firstReading = firstReading?.replacingOccurrences(of: "\r\n\r\n", with: "\n")
         firstReading = firstReading?.replacingOccurrences(of: "\r\n ", with: "\n")
         

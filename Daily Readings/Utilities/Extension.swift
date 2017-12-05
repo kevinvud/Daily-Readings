@@ -91,7 +91,7 @@ extension Date {
         let secondsAgo = Int(Date().timeIntervalSince(self))
         
         let VNDateFormatter = DateFormatter()
-        VNDateFormatter.dateFormat = "EEEE, d MMMM"
+        VNDateFormatter.dateFormat = "d MMMM"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
         
         let dateCheckAfterFormat = VNDateFormatter.string(from: self)
@@ -113,7 +113,7 @@ extension Date {
             unit = "giờ"
         } else {
             quotient = 0
-            unit = dateCheckAfterFormat
+            unit = "Ngày \(dateCheckAfterFormat)"
         }
         
         if quotient == 0 {

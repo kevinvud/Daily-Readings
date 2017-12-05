@@ -24,11 +24,29 @@ class AlarmVC: UIViewController {
     
     var timePickerDisplay: Date?
     
-    let label: UILabel = {
+    var toggleValue = true
+    
+    
+    let toggleLabel: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
         lb.textAlignment = .center
-        lb.text = "Hiển thị thông báo lễ hằng ngày vào lúc:"
+        lb.text = "Bật/Tắt thông báo hằng ngày"
+        lb.font = UIFont(name: "AvenirNext-Regular", size: 18)
+        return lb
+    }()
+    
+    lazy var toggleSwitch: UISwitch = {
+        let toggle = UISwitch()
+        toggle.addTarget(self, action: #selector(handleToggle), for: .valueChanged)
+        return toggle
+    }()
+    
+    var showUserNotificationStateLabel: UILabel = {
+        let lb = UILabel()
+        lb.numberOfLines = 0
+        lb.textAlignment = .center
+        lb.text = "Xin vui lòng chọn giờ thông báo bên dưới"
         lb.font = UIFont(name: "AvenirNext-Regular", size: 18)
         return lb
     }()
@@ -44,7 +62,7 @@ class AlarmVC: UIViewController {
     
     let imageView: UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "bg3")
+        image.image = #imageLiteral(resourceName: "bg7")
         return image
         
     }()
@@ -58,14 +76,10 @@ class AlarmVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let checkedTimePickerDisplay = UserDefaults.standard.value(forKey: "timeSaved") {
-            timePickerView.setDate(checkedTimePickerDisplay as! Date, animated: false)
-        }
-        
-        view.backgroundColor = .gray
         view.addSubview(imageView)
-        view.addSubview(label)
+        view.addSubview(toggleLabel)
+        view.addSubview(toggleSwitch)
+        view.addSubview(showUserNotificationStateLabel)
         view.addSubview(showTimeLabel)
         view.addSubview(timePickerView)
         
@@ -77,39 +91,67 @@ class AlarmVC: UIViewController {
             NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
-        navigationItem.title = "Thông Báo Lễ"
+        navigationItem.title = "Thông Báo"
+        
+        if let checkedTimePickerDisplay = UserDefaults.standard.value(forKey: "timeSaved") {
+            timePickerView.setDate(checkedTimePickerDisplay as! Date, animated: false)
+        }
         
         if let showTimeLabelFromUserDefaults = UserDefaults.standard.value(forKey: "showTimeLabel") {
             self.showTime = showTimeLabelFromUserDefaults as? String
+            showUserNotificationStateLabel.text = "Thông báo sẽ hiện ra hằng ngày vào"
             showTimeLabel.text = showTime
         }
         
         if #available(iOS 11.0, *) {
+            
             imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-            label.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            showTimeLabel.anchor(top: label.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 50)
+            toggleLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 30)
+            toggleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            toggleSwitch.anchor(top: toggleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 50, height: 20)
+            toggleSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            showUserNotificationStateLabel.anchor(top: toggleSwitch.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 30)
+            showUserNotificationStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            showTimeLabel.anchor(top: showUserNotificationStateLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
             showTimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             timePickerView.anchor(top: showTimeLabel.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
         } else {
             imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-            label.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            showTimeLabel.anchor(top: label.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 50)
+            showUserNotificationStateLabel.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
+            showUserNotificationStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            showTimeLabel.anchor(top: showUserNotificationStateLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 50)
             showTimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             timePickerView.anchor(top: showTimeLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
         }
-        
-        
-        
+        checkNotificationAuthorization()
+    }
+    
+    func checkNotificationAuthorization(){
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            if(settings.authorizationStatus == .authorized)
-            {
-                //Notification is enabled
+            if settings.authorizationStatus == .authorized {
+                if let toggleValueFromUserDefaults = UserDefaults.standard.object(forKey: "switchState") as? Bool {
+                    self.toggleValue = toggleValueFromUserDefaults
+                }
+                DispatchQueue.main.async {
+                    self.toggleSwitch.isOn = self.toggleValue
+                    if self.toggleSwitch.isOn{
+                        self.showTimeLabel.isHidden = false
+                        self.timePickerView.isHidden = false
+                        self.showUserNotificationStateLabel.isHidden = false
+                    }else{
+                        self.showTimeLabel.isHidden = true
+                        self.timePickerView.isHidden = true
+                        self.showUserNotificationStateLabel.isHidden = true
+                        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    }
+                }
             }
-            else
-            {
-                let alertController = UIAlertController(title: "Xin vui lòng bật Notifications!", message: "Để nhận thông báo hằng ngày, bạn phải vào mục Notifications và bật  \"Allow Notifications\" lên.", preferredStyle: UIAlertControllerStyle.alert)
+                
+            else{
+                DispatchQueue.main.async {
+                self.toggleSwitch.isOn = self.toggleValue
+                }
+                let alertController = UIAlertController(title: "Xin vui lòng bật Notifications!", message: "Để nhận thông báo hằng ngày, bạn phải vào mục Notifications và bật  \"Allow Notifications\" lên.", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "Để Sau", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                     self.navigationController?.popViewController(animated: true)
                 }
@@ -133,9 +175,30 @@ class AlarmVC: UIViewController {
         }
     }
     
+    @objc func handleToggle() {
+        UserDefaults.standard.set(toggleSwitch.isOn, forKey: "switchState")
+        if UserDefaults.standard.bool(forKey: "switchState") {
+            DispatchQueue.main.async {
+                self.showTimeLabel.isHidden = false
+                self.timePickerView.isHidden = false
+                self.showUserNotificationStateLabel.isHidden = false
+                self.showUserNotificationStateLabel.text = "Xin vui lòng chọn giờ thông báo bên dưới"
+                self.showTime = nil
+                self.showTimeLabel.text = nil
+                UserDefaults.standard.set(self.showTime, forKey: "showTimeLabel")
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.showTimeLabel.isHidden = true
+                self.timePickerView.isHidden = true
+                self.showUserNotificationStateLabel.isHidden = true
+                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                
+            }
+        }
+    }
     
     @objc func getTime(){
-        
         let timeFormatter = Calendar.current.dateComponents(in: .current, from: timePickerView.date)
         timePickerDisplay = timePickerView.date
         UserDefaults.standard.set(timePickerDisplay, forKey: "timeSaved")
@@ -150,38 +213,26 @@ class AlarmVC: UIViewController {
             UserDefaults.standard.set(showTime, forKey: "showTimeLabel")
         }
         showTimeLabel.text = showTime
+        showUserNotificationStateLabel.text = "Thông báo sẽ hiện ra hằng ngày vào"
+        DataService.instance.getTime(hour: timeFormatter.hour!, minute: timeFormatter.minute!, isScheduled: true)
         
-        DataService.instance.getTime(hour: timeFormatter.hour!, minute: timeFormatter.minute!)
-        DataService.instance.dateInfo.hour = timeFormatter.hour
-        DataService.instance.dateInfo.minute = timeFormatter.minute
         
-        let todayDate = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, d MMMM yyyy"
-        let todayDateFormat = formatter.string(from: todayDate)
-        var todayMass: String?
+        var fireTime = DateComponents()
+        fireTime.hour = hours
+        fireTime.minute = minutes
+        let content = UNMutableNotificationContent()
+        content.body = "⛪ Người ta sống không chỉ nhờ cơm bánh, nhưng còn nhờ mọi lời miệng Thiên Chúa phán ra. Mt4:4 ⛪"
+        content.sound = UNNotificationSound.default()
         
-        Database.database().reference().child("Brain").child("Readings Data").child("Date").child(todayDateFormat).observeSingleEvent(of: .value) { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else {return}
-            todayMass = dictionary["todayMass"] as? String ?? "Vào ứng dụng để xem ngày lễ và bài đọc hôm nay"
-            guard let contentBody = todayMass else {return}
-            
-            let newComps = DateComponents(calendar: .current, timeZone: .current, hour: hours, minute: minutes)
-            print(newComps)
-            let content = UNMutableNotificationContent()
-            content.title = "Ngày Lễ Hôm Nay"
-            content.body = contentBody
-            content.sound = UNNotificationSound.default()
-            
-            let trigger = UNCalendarNotificationTrigger(dateMatching: newComps, repeats: true)
-            let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
-            
-            UNUserNotificationCenter.current().add(request) { (error) in
-                if error != nil {
-                    print(error ?? "Notification Add Request Error")
-                }
+        let trigger = UNCalendarNotificationTrigger(dateMatching: fireTime, repeats: true)
+        let request = UNNotificationRequest(identifier: "timerDone", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if error != nil {
+                print(error ?? "Notification Add Request Error")
             }
         }
+        
         
     }
 }

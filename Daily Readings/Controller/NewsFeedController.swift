@@ -143,31 +143,35 @@ extension NewsFeedController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! NewsFeedCell
         cell.item = rssItems[indexPath.item]
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-                let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
-                let dummyCell = NewsFeedCell(frame: frame)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let dummyCell = DummyCellForNewsFeedHeight(frame: frame)
         
-                let attributedText = NSMutableAttributedString(string: rssItems[indexPath.item].title, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 25)])
-                dummyCell.titleLabel.attributedText = attributedText
+        dummyCell.cellContentLabel.text = rssItems[indexPath.item].title
+        dummyCell.descriptionLabel.text = rssItems[indexPath.item].description.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+    
+        dummyCell.layoutIfNeeded()
+        //        titleLabel.anchor(top: safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: descriptionLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+        //        descriptionLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: dateLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: descriptionLabelHeight)
+        //        dateLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 200, height: 30)
+        //        shareButton.anchor(top: nil, left: nil, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 25, height: 25)
+        //        shareButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
         
-                let attributedText2 = NSMutableAttributedString(string: rssItems[indexPath.item].description, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17)])
-                dummyCell.descriptionLabel.attributedText = attributedText2
-        
-                let attributedText3 = NSMutableAttributedString(string: "\(rssItems[indexPath.item].pubDate)\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17)])
-                attributedText.append(NSAttributedString(string: "NOVEMBER 7, 2017", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)]))
-                dummyCell.dateLabel.attributedText = attributedText3
-        
-                dummyCell.layoutIfNeeded()
-                let targetSize = CGSize(width: view.frame.width, height: 1000)
-                let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
-                return CGSize(width: view.frame.width, height: estimatedSize.height)
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
+        if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 15 + 15 + 15 + 30)
+        } else{
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 15 + 15 + 15 + 30)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 8
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -175,4 +179,25 @@ extension NewsFeedController: UICollectionViewDelegateFlowLayout {
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
 
+}
+
+extension NewsFeedController: NewsFeedCellDelegate {
+    
+    func handleShareNewsPressed(newsTitle: String) {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+        
+        let shareItems: Array = ["\(newsTitle)\n\nhttps://itunes.apple.com/us/app/t%C3%ADn-thác/id1315378723?ls=1&mt=8"] as [Any]
+        let activityController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        activityController.excludedActivityTypes = [UIActivityType.saveToCameraRoll, .assignToContact, .assignToContact, .openInIBooks]
+        activityController.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if !completed {
+                //cancel sharing
+                return
+            }
+            //completed
+        }
+        activityController.popoverPresentationController?.sourceView = self.view
+        present(activityController, animated: true, completion: nil)
+    }
 }
