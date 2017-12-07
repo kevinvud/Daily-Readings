@@ -9,11 +9,7 @@
 import UIKit
 import AVFoundation
 
-
-
 private let reuseIdentifier = "Cell"
-private let headerId = "headerId"
-
 class ReadingsDisplayController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate{
     
     var readingCellTextSize: CGFloat?

@@ -14,6 +14,4 @@ struct RSSItem {
     var description: String
     var pubDate: String
     var link: String
-    
-    
 }

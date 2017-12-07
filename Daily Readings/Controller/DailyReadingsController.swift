@@ -73,7 +73,7 @@ class DailyReadingsController: UICollectionViewController {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.contentView.addSubview(activityIndicator)
         activityIndicatorView.contentView.addSubview(loadingLabel)
-        
+ 
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
@@ -83,7 +83,7 @@ class DailyReadingsController: UICollectionViewController {
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Bài Đọc"
-        
+
         checkInternetConnection()
         showActivityIndicatory()
         checkDate()
@@ -97,10 +97,10 @@ class DailyReadingsController: UICollectionViewController {
             if (settings.authorizationStatus == .notDetermined || settings.authorizationStatus == .authorized) && DataService.instance.checkScheduled() == false
             {
                 var fireTime = DateComponents()
-                fireTime.hour = 17
-                fireTime.minute = 29
+                fireTime.hour = 12
+                fireTime.minute = 30
                 let content = UNMutableNotificationContent()
-                content.body = "⛪ Người ta sống không chỉ nhờ cơm bánh, nhưng còn nhờ mọi lời miệng Thiên Chúa phán ra. Mt4:4 ⛪"
+                content.body = "⛪ Xin đừng quên vào ứng dụng này mỗi ngày, nó sẽ giúp bạn yêu Chúa hơn đấy! ⛪"
                 content.sound = UNNotificationSound.default()
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: fireTime, repeats: true)
@@ -245,8 +245,11 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
             cell.delegate = self
             cell.readingData = data[indexPath.item]
             if indexPath.item == 0 {
-                cell.todayLabel.backgroundColor = UIColor.rgb(red: 218, green: 207, blue: 239)
-                cell.todayLabel.textAlignment = .center
+                DispatchQueue.main.async {
+                    cell.todayLabel.backgroundColor = UIColor.rgb(red: 218, green: 207, blue: 239)
+                    cell.todayLabel.textColor = .white
+                    cell.todayLabel.textAlignment = .center
+                }
             }
         } else{
             print("OUT OF BOUNCE IS HERE")

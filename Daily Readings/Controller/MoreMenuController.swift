@@ -24,7 +24,7 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Thông Tin"
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
-        
+
         // Register cell classes
         self.collectionView!.register(MoreMenuCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView?.register(FooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerCellId)

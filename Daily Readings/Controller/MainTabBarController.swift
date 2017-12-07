@@ -23,11 +23,13 @@ class MainTabBarController: UITabBarController {
         
         let firstController = templateNavController(tabTitle: "Bài Đọc", image: #imageLiteral(resourceName: "read"), rootViewController: DailyReadingsController(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        let secondController = templateNavController(tabTitle: "Tin Công Giáo", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let secondController = templateNavController(tabTitle: "Suy Niệm", image: #imageLiteral(resourceName: "reflection"), rootViewController: ReflectionVC(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        let thirdController = templateNavController(tabTitle: "Thông Tin", image: #imageLiteral(resourceName: "menu"), rootViewController: MoreMenuController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let thirdController = templateNavController(tabTitle: "Tin Công Giáo", image: #imageLiteral(resourceName: "news"), rootViewController: RssCategoriesController(collectionViewLayout: UICollectionViewFlowLayout()))
         
-        viewControllers = [firstController, secondController, thirdController]
+        let fourthController = templateNavController(tabTitle: "Thông Tin", image: #imageLiteral(resourceName: "menu"), rootViewController: MoreMenuController(collectionViewLayout: UICollectionViewFlowLayout()))
+        
+        viewControllers = [firstController, secondController, thirdController, fourthController]
         
 //        guard let items = tabBar.items else { return }
         

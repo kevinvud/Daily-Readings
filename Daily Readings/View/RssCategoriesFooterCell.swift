@@ -17,7 +17,7 @@ class RssCategoriesFooterCell: UICollectionViewCell {
         bt.setAttributedTitle(attributedText, for: .normal)
         bt.addTarget(self, action: #selector(handleTouch), for: .touchUpInside)
         bt.titleLabel?.numberOfLines = 0
-        bt.titleLabel?.textColor = UIColor(white: 0.8, alpha: 1)
+        bt.titleLabel?.textColor = UIColor(white: 0.3, alpha: 1)
         return bt
     }()
     

@@ -117,9 +117,13 @@ class AlarmVC: UIViewController {
             timePickerView.anchor(top: showTimeLabel.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
         } else {
             imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-            showUserNotificationStateLabel.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
+            toggleLabel.anchor(top: topLayoutGuide.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 20, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 30)
+            toggleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            toggleSwitch.anchor(top: toggleLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 50, height: 20)
+            toggleSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            showUserNotificationStateLabel.anchor(top: toggleSwitch.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 30)
             showUserNotificationStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            showTimeLabel.anchor(top: showUserNotificationStateLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 50)
+            showTimeLabel.anchor(top: showUserNotificationStateLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 40)
             showTimeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             timePickerView.anchor(top: showTimeLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 200)
         }
@@ -151,11 +155,11 @@ class AlarmVC: UIViewController {
                 DispatchQueue.main.async {
                 self.toggleSwitch.isOn = self.toggleValue
                 }
-                let alertController = UIAlertController(title: "Xin vui lòng bật Notifications!", message: "Để nhận thông báo hằng ngày, bạn phải vào mục Notifications và bật  \"Allow Notifications\" lên.", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Xin vui lòng bật Notifications!", message: "Để nhận thông báo hằng ngày, bạn phải vào mục Notifications và bật \"Allow Notifications\" lên.", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "Để Sau", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                     self.navigationController?.popViewController(animated: true)
                 }
-                let okAction = UIAlertAction(title: "Vào Đây Để Bật Notifications", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
+                let okAction = UIAlertAction(title: "Vào đây để bật Notifications", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
                     DispatchQueue.main.async {
                         guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
                             return
@@ -221,7 +225,7 @@ class AlarmVC: UIViewController {
         fireTime.hour = hours
         fireTime.minute = minutes
         let content = UNMutableNotificationContent()
-        content.body = "⛪ Người ta sống không chỉ nhờ cơm bánh, nhưng còn nhờ mọi lời miệng Thiên Chúa phán ra. Mt4:4 ⛪"
+        content.body = "⛪ Xin đừng quên vào ứng dụng này mỗi ngày, nó sẽ giúp bạn yêu Chúa hơn đấy! ⛪"
         content.sound = UNNotificationSound.default()
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: fireTime, repeats: true)

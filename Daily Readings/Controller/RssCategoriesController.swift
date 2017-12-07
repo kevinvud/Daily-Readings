@@ -14,17 +14,10 @@ private let footerId = "footerId"
 
 class RssCategoriesController: UICollectionViewController {
     
-    let imageView: UIImageView = {
-        let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "newsCategoriesBackground")
-        image.contentMode = .scaleAspectFill
-        return image
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.alwaysBounceVertical = true
-        collectionView?.backgroundView = imageView
+        collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
+        collectionView?.showsVerticalScrollIndicator = false
         let attrs = [
             NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 22)!
         ]
@@ -63,14 +56,14 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
          if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
-            return CGSize(width: view.frame.width, height: 144)
+            return CGSize(width: view.frame.width, height: 232)
         } else{
             return CGSize(width: view.frame.width, height: 360)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
