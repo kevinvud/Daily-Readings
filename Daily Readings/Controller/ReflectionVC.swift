@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 private let reuseIdentifier = "Cell"
 private let footerId = "footer"
 
 class ReflectionVC: UICollectionViewController {
     
+    var interstitial: GADInterstitial?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,10 @@ class ReflectionVC: UICollectionViewController {
         
         self.collectionView!.register(ReflectionCategoriesCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView?.register(ReflectionFooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
-
+        if firstTimeLogin{
+            interstitial = DataService.instance.createAndLoadInterstitial()
+        }
+        
     }
 }
 
@@ -61,6 +66,8 @@ extension ReflectionVC: UICollectionViewDelegateFlowLayout{
         let reflectionFeedsController = ReflectionFeedsController(collectionViewLayout: UICollectionViewFlowLayout())
         reflectionFeedsController.data = reflectionData
         navigationController?.pushViewController(reflectionFeedsController, animated: true)
+        guard (interstitial?.isReady) != nil else {return}
+        interstitial?.present(fromRootViewController: self)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 40)
@@ -71,7 +78,19 @@ extension ReflectionVC: UICollectionViewDelegateFlowLayout{
         return footer
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 0.93, y: 0.93)
+        }, completion: nil)
+    }
     
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
+    }
     
     
 }

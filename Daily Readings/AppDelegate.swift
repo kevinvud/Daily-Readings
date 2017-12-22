@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import UserNotifications
 import FBSDKCoreKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,10 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         FirebaseApp.configure()
-        
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-7835361104201283~4375279423")
         window = UIWindow()
-        window?.rootViewController = MainTabBarController()
-        
+        window?.rootViewController = MainTabBarController()        
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (didAllow, error) in
             if didAllow {
@@ -40,9 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error?.localizedDescription as Any)
             }
         }
-        
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
+    
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool{
         

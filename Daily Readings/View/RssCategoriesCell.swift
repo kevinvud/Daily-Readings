@@ -75,15 +75,6 @@ class RssCategoriesCell: UICollectionViewCell {
             titleAndText.anchor(top: view.topAnchor, left: imageView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 8, paddingLeft: 16, paddingBottom: 0, paddingRight: 8, width: 0, height: 140)
         }
     }
-    
-//    
-//    func createString(title: String, content: String){
-//        let attributedText = NSMutableAttributedString(string: "\(title)\n\n", attributes: [NSAttributedStringKey.font: UIFont.init(name: "HelveticaNeue-Bold", size: 20)!])
-//        attributedText.append(NSMutableAttributedString(string: content, attributes: [NSAttributedStringKey.font: UIFont.init(name: "Avenir Next", size: 16)!]))
-//        self.titleAndText.attributedText = attributedText
-//    }
-
-    
 }
 
 //var titleFontSize: CGFloat = 40

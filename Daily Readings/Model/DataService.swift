@@ -7,16 +7,23 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class DataService {
     
     static let instance = DataService()
+    
+    var interstitial: GADInterstitial!
     
     var dateInfo = DateComponents()
     
     var notificationIsScheduled = false
     
     let appleAppId = "ca-app-pub-7835361104201283~4375279423"
+    
+    let unitId = "ca-app-pub-7835361104201283/6673181841"
+    
+    let googleAPIKey = "AIzaSyCXlYFtUYVLe2ULeos8NcExBB-cJwyk29U"
     
     let rssCategories = [RssCategories(title: "Tin Giáo Hội Việt Nam",urlLink: "http://baoconggiao.net/index.php/rss/tin-giao-hoi-viet-nam/", imageName: "vietnam"),
                          RssCategories(title: "Tin Vatican", urlLink: "http://baoconggiao.net/index.php/rss/tin-vatican/", imageName: "vatican"),
@@ -37,6 +44,12 @@ class DataService {
                                ReflectionCategories(title: "Video Thánh Lễ", contentText: "Thánh lễ tại Giáo Điểm Tin Mừng ", urlLink: "http://tinthac.net/index.php/rss/nhat-ky-video/", imageName: "thanhle")
     ]
     
+    func createAndLoadInterstitial() -> GADInterstitial {
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-7835361104201283/6673181841")
+        let request = GADRequest()
+        interstitial?.load(request)
+        return interstitial
+    }
     
     func getCategories() -> [RssCategories]{
         return rssCategories

@@ -8,14 +8,18 @@
 
 import UIKit
 import Firebase
+import GoogleMobileAds
 import UserNotifications
 
 private let cellId = "DailyCellId"
 
-class DailyReadingsController: UICollectionViewController {
+var firstTimeLogin = UserDefaults.standard.bool(forKey: "launchedBefore")
+
+class DailyReadingsController: UICollectionViewController, GADInterstitialDelegate {
     
     var currentDate = Date()
     var data = [ReadingsContent]()
+    var interstitial: GADInterstitial?
     
     let errorMessageLabel: UILabel  = {
         let label = UILabel()
@@ -52,28 +56,36 @@ class DailyReadingsController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(checkIfRefreshIsNeeded),
             name: NSNotification.Name.UIApplicationDidBecomeActive,
             object: nil)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        displayLoadingMessage()
+        setupCollectionLookAndNavigation()
+        checkInternetConnection()
+        showActivityIndicatory()
+        fetchDataFromServer()
+        showNotificaton()
+        checkFirstTimeLoginForAds_RunAds()
+    }
+    
+    func displayLoadingMessage(){
         view.addSubview(activityIndicatorView)
         activityIndicatorView.contentView.addSubview(activityIndicator)
         activityIndicatorView.contentView.addSubview(loadingLabel)
- 
+    }
+    
+    func setupCollectionLookAndNavigation(){
         collectionView?.backgroundColor = UIColor.rgb(red: 234, green: 237, blue: 240)
         collectionView?.register(DailyReadingsCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.showsVerticalScrollIndicator = false
@@ -83,14 +95,17 @@ class DailyReadingsController: UICollectionViewController {
         ]
         navigationController?.navigationBar.titleTextAttributes = attrs
         navigationItem.title = "Bài Đọc"
-
-        checkInternetConnection()
-        showActivityIndicatory()
-        checkDate()
-        showNotificaton()
-        
     }
     
+    func checkFirstTimeLoginForAds_RunAds(){
+        if firstTimeLogin {
+            print("Not first launch.")
+            interstitial = DataService.instance.createAndLoadInterstitial()
+        } else {
+            print("First launch, setting UserDefault.")
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+        }
+    }
     
     func showNotificaton() {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -111,7 +126,6 @@ class DailyReadingsController: UICollectionViewController {
                         print(error ?? "Nothing")
                     }
                 }
-                
             }
         }
     }
@@ -128,9 +142,7 @@ class DailyReadingsController: UICollectionViewController {
         
         loadingLabel.anchor(top: nil, left: activityIndicator.rightAnchor, bottom: nil, right: activityIndicatorView.rightAnchor, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 15, width: 0, height: 75)
         loadingLabel.centerYAnchor.constraint(equalTo: activityIndicatorView.centerYAnchor).isActive = true
-        
         activityIndicatorView.effect = UIBlurEffect(style: .prominent)
-        
         activityIndicator.startAnimating()
     }
     
@@ -146,7 +158,6 @@ class DailyReadingsController: UICollectionViewController {
         } else {
             self.errorMessageLabel.isHidden = true
         }
-        
     }
     
     func displayErrorMessage() {
@@ -156,7 +167,6 @@ class DailyReadingsController: UICollectionViewController {
     }
     
     @objc func checkIfRefreshIsNeeded() {
-        
         let dateCheck = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMMM yyyy"
@@ -167,36 +177,26 @@ class DailyReadingsController: UICollectionViewController {
             handleRefresh()
             currentDate = dateCheck
         }
-        
     }
-    
     
     func handleRefresh() {
         self.data.removeAll()
-        self.checkDate()
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
+        self.fetchDataFromServer()
     }
     
-    @objc func handleReloadCell() {
-        DispatchQueue.main.async {
-            self.collectionView?.reloadData()
-        }
-        
-    }
-    
-    @objc func checkDate() {
+    func fetchDataFromServer() {
+        let myGroup = DispatchGroup()
         var todayDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, d MMMM yyyy"
         let VNDateFormatter = DateFormatter()
-        VNDateFormatter.dateFormat = "d MMMM"
+        VNDateFormatter.dateFormat = "d MMMM yyyy"
         VNDateFormatter.locale = Locale(identifier: "vi_VN")
         
-        guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -2, to: todayDate) else {return}
+        guard let yesterdayDate = Calendar.current.date(byAdding: .day, value: -8, to: todayDate) else {return}
         
         while todayDate > yesterdayDate {
+            myGroup.enter()
             let todayDateFormat = formatter.string(from: todayDate)
             let VnTodayDateFormat = VNDateFormatter.string(from: todayDate)
             
@@ -206,25 +206,27 @@ class DailyReadingsController: UICollectionViewController {
                 checkTodayOrTomorrowOrYesterdayLabel = "Hôm Nay"
             } else if NSCalendar.current.isDateInYesterday(todayDate) {
                 checkTodayOrTomorrowOrYesterdayLabel = "Hôm Qua"
+            }else{
+                checkTodayOrTomorrowOrYesterdayLabel = "Tuần Trước"
             }
             Database.database().reference().child("Brain").child("Readings Data").child("Date").child(todayDateFormat).observeSingleEvent(of: .value, with: { (snapshot) in
-                guard let dictionary = snapshot.value as? [String: Any] else {return}
-                self.errorMessageLabel.isHidden = true
+                guard let dictionary = snapshot.value as? [String: Any] else { myGroup.leave()
+                    return}
                 
+                self.errorMessageLabel.isHidden = true
                 let readingContent = ReadingsContent(dictionary: dictionary, dateLabel: VnTodayDateFormat, checkTodayOrTomorrowOrYesterdayLabel: checkTodayOrTomorrowOrYesterdayLabel)
                 self.data.append(readingContent)
-                self.data.sort(by: { (message1, message2) -> Bool in
-                    return VNDateFormatter.date(from: message1.dateLabel)! > VNDateFormatter.date(from: message2.dateLabel)!
-                })
-                self.handleReloadCell()
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.removeFromSuperview()
-                    self.activityIndicator.stopAnimating()
-                }
-                
+                myGroup.leave()
             }, withCancel: nil)
             todayDate = Calendar.current.date(byAdding: .day, value: -1, to: todayDate)!
-            
+        }
+        myGroup.notify(queue: .main) {
+            self.data.sort(by: { (message1, message2) -> Bool in
+                return VNDateFormatter.date(from: message1.dateLabel)! > VNDateFormatter.date(from: message2.dateLabel)!
+            })
+            self.collectionView?.reloadData()
+            self.activityIndicatorView.removeFromSuperview()
+            self.activityIndicator.stopAnimating()
         }
     }
 }
@@ -244,21 +246,11 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         if data.count > 0 {
             cell.delegate = self
             cell.readingData = data[indexPath.item]
-            if indexPath.item == 0 {
-                DispatchQueue.main.async {
-                    cell.todayLabel.backgroundColor = UIColor.rgb(red: 218, green: 207, blue: 239)
-                    cell.todayLabel.textColor = .white
-                    cell.todayLabel.textAlignment = .center
-                }
-            }
         } else{
             print("OUT OF BOUNCE IS HERE")
             cell.readingData = nil
         }
-        
         return cell
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -269,9 +261,9 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
         if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 250 + 10 + 10 + 30 + 10 + 150 + 10 + 25 + 15)
         } else{
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 500 + 10 + 5 + 30 + 5 + 150 + 15 + 25 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 512 + 10 + 10 + 30 + 10 + 288 + 10 + 25 + 25)
         }
         
     }
@@ -284,7 +276,24 @@ extension DailyReadingsController: UICollectionViewDelegateFlowLayout {
         let readingsData = data[indexPath.item]
         let readingsDisplayController = ReadingsDisplayController(collectionViewLayout: UICollectionViewFlowLayout())
         readingsDisplayController.readingData = readingsData
+        
         navigationController?.pushViewController(readingsDisplayController, animated: true)
+        guard (interstitial?.isReady) != nil else {return}
+        self.interstitial?.present(fromRootViewController: self)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 0.93, y: 0.93)
+        }, completion: nil)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

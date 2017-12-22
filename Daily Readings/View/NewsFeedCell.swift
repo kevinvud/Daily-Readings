@@ -35,7 +35,6 @@ class NewsFeedCell: UICollectionViewCell {
         
     }
     
-    
     lazy var titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: "HelveticaNeue-Bold", size: titleLabelFontSize)
@@ -97,16 +96,14 @@ class NewsFeedCell: UICollectionViewCell {
         if #available(iOS 11.0, *) {
             titleLabel.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: descriptionLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: dateLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: 0)
-            dateLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 250, height: 30)
-            shareButton.anchor(top: nil, left: nil, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 25, height: 25)
-            shareButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
+            dateLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 8, paddingRight: 0, width: 250, height: 20)
+            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 15, width: 25, height: 25)
             
         } else {
             titleLabel.anchor(top: topAnchor, left: leftAnchor, bottom: descriptionLabel.topAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
             descriptionLabel.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, bottom: dateLabel.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 15, width: 0, height: 0)
-            dateLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 250, height: 30)
-            shareButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: 25, height: 25)
-            shareButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
+            dateLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 8, paddingRight: 0, width: 250, height: 20)
+            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 15, width: 25, height: 25)
         }
     }
     

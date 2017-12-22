@@ -22,29 +22,41 @@ class DailyReadingsCell: UICollectionViewCell {
     var imageViewHeight: CGFloat = 512
     var shareButtonWidth: CGFloat = 100
     
-    
     weak var delegate: DailyReadingsCellDelegate?
     
     var readingData: ReadingsContent? {
         didSet{
-            DispatchQueue.main.async {
                 if let imageViewUrl = self.readingData?.imageViewUrl{
                     self.imageView.loadImagesUsingCacheWithUrlString(imageViewUrl)
                 }
                 if let todayMass = self.readingData?.todayMass {
                     self.todayMass.text = "\(todayMass)"
-                    
                 }
-                if let dateLabel = self.readingData?.dateLabel {
+                if let dateLabelText = self.readingData?.dateLabel {
+                    let VNDateFormatter = DateFormatter()
+                    VNDateFormatter.dateFormat = "d MMMM yyyy"
+                    VNDateFormatter.locale = Locale(identifier: "vi_VN")
+                    guard let date = VNDateFormatter.date(from: dateLabelText) else {return}
                     
-                    self.dateLabel.text = "Ngày \(dateLabel)"
-                    
+                    VNDateFormatter.dateFormat = "d MMMM"
+                    VNDateFormatter.locale = Locale(identifier: "vi_VN")
+                    let dateAfterShortened = VNDateFormatter.string(from: date)
+                        self.dateLabel.text = "Ngày \(dateAfterShortened)"
                 }
                 if let todayLabelCheck = self.readingData?.checkTodayOrTomorrowOrYesterdayLabel {
                     self.todayLabel.text = todayLabelCheck
+                    if todayLabelCheck == "Hôm Nay"{
+                        self.todayLabel.backgroundColor = UIColor.rgb(red: 218, green: 207, blue: 239)
+                        self.todayLabel.textColor = .white
+                        self.todayLabel.textAlignment = .center
+                    }else{
+                        self.todayLabel.backgroundColor = .clear
+                        self.todayLabel.textColor = UIColor.rgb(red: 143, green: 150, blue: 163)
+                        self.todayLabel.textAlignment = .left
+                    }
+                    
                 }
                 self.setupLabelDisplayed()
-            }
         }
     }
     
@@ -75,7 +87,6 @@ class DailyReadingsCell: UICollectionViewCell {
     lazy var todayLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.init(name: "AvenirNext-Medium", size: textFontSize)
-        label.textColor = UIColor.rgb(red: 143, green: 150, blue: 163)
         label.layer.cornerRadius = 10
         label.layer.masksToBounds = true
         return label
@@ -126,8 +137,8 @@ class DailyReadingsCell: UICollectionViewCell {
             textFontSize = 18
             dateLabelFontSize = 18
             todayMassFontSize = 22
-            contentTextViewHeight = 144
-            imageViewHeight = 256
+            contentTextViewHeight = 150
+            imageViewHeight = 250
             shareButtonWidth = 80
         }
         
@@ -144,28 +155,30 @@ class DailyReadingsCell: UICollectionViewCell {
             
             imageView.anchor(top: topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: imageViewHeight)
             
-            todayMass.anchor(top: imageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: todayLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+            todayMass.anchor(top: imageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: todayLabel.topAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 10, paddingRight: 15, width: 0, height: 0)
             
-            todayLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
+            todayLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
             
-            contentTextView.anchor(top: todayLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
+            contentTextView.anchor(top: todayLabel.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: contentTextViewHeight)
             
-            dateLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 0, height: 25)
+            dateLabel.anchor(top: nil, left: safeAreaLayoutGuide.leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 10, paddingRight: 0, width: 0, height: 25)
             
-            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
+            shareButton.anchor(top: nil, left: nil, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: shareButtonWidth, height: 25)
+            shareButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
             
         } else {
             imageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: imageViewHeight)
             
-            todayMass.anchor(top: imageView.bottomAnchor, left: leftAnchor, bottom: todayLabel.topAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 0)
+            todayMass.anchor(top: imageView.bottomAnchor, left: leftAnchor, bottom: todayLabel.topAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 10, paddingRight: 15, width: 0, height: 0)
             
-            todayLabel.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
+            todayLabel.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 150, height: 30)
             
-            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 5, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: 150)
+            contentTextView.anchor(top: todayLabel.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 10, paddingLeft: 15, paddingBottom: 0, paddingRight: 15, width: 0, height: contentTextViewHeight)
             
-            dateLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 15, paddingRight: 0, width: 0, height: 25)
+            dateLabel.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 15, paddingBottom: 10, paddingRight: 0, width: 0, height: 25)
             
-            shareButton.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: shareButtonWidth, height: 25)
+            shareButton.anchor(top: nil, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 15, width: shareButtonWidth, height: 25)
+            shareButton.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor).isActive = true
         }
     }
     

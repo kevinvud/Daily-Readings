@@ -33,8 +33,8 @@ class MoreMenuController: UICollectionViewController, MFMailComposeViewControlle
     func configuredMailComposeVC() -> MFMailComposeViewController{
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-        mailComposerVC.setToRecipients(["tinthacbaidoc@email.com"])
-        mailComposerVC.setSubject("Trợ Giúp / Góp Ý")
+        mailComposerVC.setToRecipients(["kevinvud@gmail.com"])
+        mailComposerVC.setSubject("Trợ Giúp / Góp Ý Ứng Dụng Tín Thác (iOS)")
         let systemVersion = UIDevice.current.systemVersion
         let model = UIDevice.current.model
         mailComposerVC.setMessageBody("/// Xin vui lòng viết dưới dòng này. ///\n\n\n\n\n\n\n /// Xin vui lòng đừng xoá thông tin duới này.\nSystem Version: \(systemVersion)\n Device Model: \(model)\n ///", isHTML: false)
@@ -74,6 +74,9 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MoreMenuCell
         cell.data = DataService.instance.getMenuItem()[indexPath.item]
+        if indexPath.item == DataService.instance.getMenuItem().count - 1{
+            cell.lineSeparator.isHidden = true
+        }
         return cell
     }
     
@@ -124,9 +127,11 @@ extension MoreMenuController: UICollectionViewDelegateFlowLayout {
         }
         else if indexPath.item == 3 {
             let alarmVC = AlarmVC()
-            alarmVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(alarmVC, animated: true)
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
+            DispatchQueue.main.async {
+                alarmVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(alarmVC, animated: true)
+                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
+            }
         }
             
         else if indexPath.item == 4 {

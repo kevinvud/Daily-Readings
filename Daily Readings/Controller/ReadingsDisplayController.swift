@@ -236,6 +236,7 @@ extension ReadingsDisplayController {
             cell.cellContentLabel.textColor = readingCellTextColor
             cell.cellContentLabel.font = UIFont(name: "Avenir Next", size: readingCellTextSize!)
             cell.cellContentLabel.text = readingData?.gospel
+            cell.lineSeparator.isHidden = true
             return cell
         }
         

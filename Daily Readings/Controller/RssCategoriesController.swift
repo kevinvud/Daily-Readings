@@ -8,11 +8,14 @@
 
 import UIKit
 import SafariServices
+import GoogleMobileAds
 
 private let reuseIdentifier = "Cell"
 private let footerId = "footerId"
 
 class RssCategoriesController: UICollectionViewController {
+    
+    var interstitial: GADInterstitial?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,10 @@ class RssCategoriesController: UICollectionViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Trở Về", style: .plain, target: nil, action: nil)
         self.collectionView?.register(RssCategoriesCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView?.register(RssCategoriesFooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+        
+        if firstTimeLogin{
+            interstitial = DataService.instance.createAndLoadInterstitial()
+        }
 
     }
     
@@ -51,6 +58,9 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
         let newsFeedController = NewsFeedController(collectionViewLayout: UICollectionViewFlowLayout())
         newsFeedController.data = readingsData
         navigationController?.pushViewController(newsFeedController, animated: true)
+        guard (interstitial?.isReady) != nil else {return}
+        self.interstitial?.present(fromRootViewController: self)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -78,6 +88,20 @@ extension RssCategoriesController: UICollectionViewDelegateFlowLayout {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 0.93, y: 0.93)
+        }, completion: nil)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
     }
     
 }

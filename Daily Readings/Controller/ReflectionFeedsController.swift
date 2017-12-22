@@ -155,9 +155,9 @@ extension ReflectionFeedsController: UICollectionViewDelegateFlowLayout {
         let targetSize = CGSize(width: view.frame.width, height: 1000)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
         if (UIDevice.current.model == "iPhone") || (UIDevice.current.model == "iPod") {
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 8 + 15 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 8 + 8 + 25)
         } else{
-            return CGSize(width: view.frame.width, height: estimatedSize.height + 8 + 15 + 30)
+            return CGSize(width: view.frame.width, height: estimatedSize.height + 8 + 8 + 25)
         }
     }
     
@@ -168,6 +168,20 @@ extension ReflectionFeedsController: UICollectionViewDelegateFlowLayout {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         self.collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 0.93, y: 0.93)
+        }, completion: nil)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
+            cell?.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: nil)
     }
     
 }
